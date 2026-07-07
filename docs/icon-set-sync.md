@@ -1,4 +1,10 @@
-# Icon Set Sync — SwitchcraftKeys
+---
+layout: default
+title: Icon Set Sync
+description: Local icon set sync process
+---
+
+# Icon Set Sync - SwitchcraftKeys
 
 The developer's personal Icons8-derived icon set lives outside this repository at:
 
@@ -14,7 +20,7 @@ renamed PNGs under `Assets/Views/` are tracked in git.
 
 ## Integration Options
 
-### Option A: Local Path (current — development only)
+### Option A: Local Path (current - development only)
 
 Icons are consumed directly from the local path above.
 No setup required on the developer's machine.
@@ -55,7 +61,7 @@ git subtree pull --prefix=external/icons <icon-repo-url> main --squash
 ## Checklist Before Committing Icons
 
 - [ ] Confirm license allows redistribution and bundling
-- [ ] Add entries to `docs/ATTRIBUTIONS.md` with source and license
+- [ ] Add entries to `docs/attributions.md` with source and license
 - [ ] Icons8 attribution present in app (free tier requires it)
 - [ ] No `.ico` files committed under `Assets/Views/` (only `Assets/icon.ico`)
 - [ ] Filenames follow `{ViewName}-{descriptor}-{size}.png` convention
@@ -69,8 +75,8 @@ If a needed icon is missing from the set, add it via the pipeline:
 
 ```
 # 1. Download from Icons8 CDN (try 3d-fluency first, fall back to fluency)
-https://img.icons8.com/3d-fluency/50/<name>.png   → 50x50\icons8-<name>-3d-50.png
-https://img.icons8.com/3d-fluency/100/<name>.png  → 100x100\icons8-<name>-3d-100.png
+https://img.icons8.com/3d-fluency/50/<name>.png   -> 50x50\icons8-<name>-3d-50.png
+https://img.icons8.com/3d-fluency/100/<name>.png  -> 100x100\icons8-<name>-3d-100.png
 
 # 2. Run the pipeline to generate all sizes + .ico
 python process-icons.py --workers 16
@@ -87,5 +93,5 @@ Requirements: ImageMagick 7 (`magick` in PATH), optipng, Python 3.
 - Personal set docs: `D:\workspace\_non_work_\icons8-personal-set\README.md`
 - Pipeline docs: `D:\workspace\_non_work_\icons8-personal-set\PIPELINE.md`
 - Icon catalog: `D:\workspace\_non_work_\icons8-personal-set\icon-catalog.md`
-- Assets guide: `docs/ASSETS-GUIDE.md`
-- Attributions: `docs/ATTRIBUTIONS.md`
+- Assets guide: `docs/assets-guide.md`
+- Attributions: `docs/attributions.md`

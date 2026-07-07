@@ -1,4 +1,10 @@
-# UX Design — SwitchcraftKeys
+---
+layout: default
+title: UX Design
+description: Tray-first UX, Luna theme, and dashboard patterns
+---
+
+# UX Design - SwitchcraftKeys
 
 **Version**: 1.0  
 **Theme**: Luna/Watercolor (light, soft gradients, rounded corners)  

@@ -1,3 +1,9 @@
+---
+layout: default
+title: Versioning
+description: Versioning strategy and release metadata
+---
+
 # Versioning Strategy
 
 SwitchcraftKeys adheres to **Semantic Versioning 2.0** with build metadata for commit tracking.
@@ -14,7 +20,7 @@ Where:
 - **PATCH**: Bug fixes, patches (e.g., `0.1.1`, `0.1.2`)
 - **BUILD**: Short git commit SHA (7 chars), e.g., `0.1.0+92fb7bb`
 
-The `+BUILD` part is **build metadata** per [SemVer 2.0 spec](https://semver.org/spec/v2.0.0.html) — it doesn't affect version precedence but uniquely identifies which commit produced the binary.
+The `+BUILD` part is **build metadata** per [SemVer 2.0 spec](https://semver.org/spec/v2.0.0.html) - it doesn't affect version precedence but uniquely identifies which commit produced the binary.
 
 ---
 
@@ -24,7 +30,7 @@ The `.csproj` file defines two separate fields:
 
 | Field | Purpose | Example |
 |-------|---------|---------|
-| `<Version>` | Base SemVer (no metadata) — used for NuGet, MSBuild | `0.1.0` |
+| `<Version>` | Base SemVer (no metadata) - used for NuGet, MSBuild | `0.1.0` |
 | `<InformationalVersion>` | Full version with commit SHA | `0.1.0+92fb7bb` |
 
 The `<InformationalVersion>` is automatically injected at build time via an MSBuild target that runs `git rev-parse --short HEAD`. If git is unavailable, it defaults to `unknown`.
@@ -33,7 +39,7 @@ The `<InformationalVersion>` is automatically injected at build time via an MSBu
 
 1. **Assembly Metadata**: `dotnet --version` / properties in Windows File Explorer
 2. **Build Output**: Logged by `build.ps1` 
-3. **Build Artifacts**: Embedded in `.exe` (visible via `Properties` → `Details` tab in Windows)
+3. **Build Artifacts**: Embedded in `.exe` (visible via `Properties` -> `Details` tab in Windows)
 
 ---
 
@@ -61,10 +67,10 @@ git commit -m "fix: handle disconnected USB devices"
 ### 2. Before Release (Bump Version)
 
 ```powershell
-# Bump patch version (e.g., 0.1.0 → 0.1.1)
+# Bump patch version (e.g., 0.1.0 -> 0.1.1)
 .\build\version.ps1 -Bump patch
 
-# Or bump minor (e.g., 0.1.0 → 0.2.0)
+# Or bump minor (e.g., 0.1.0 -> 0.2.0)
 .\build\version.ps1 -Bump minor
 
 # Or set explicitly (e.g., to 1.0.0)

@@ -1,4 +1,10 @@
-# Specification — SwitchcraftKeys
+---
+layout: default
+title: Specification
+description: Functional and non-functional requirements
+---
+
+# Specification - SwitchcraftKeys
 
 **Version**: 1.0  
 **Author**: Marcelo Frau  
@@ -15,7 +21,7 @@
 **SwitchcraftKeys** solves the non-deterministic keyboard layout switching problem by
 introducing device-aware, deterministic keyboard layout management.
 
-Windows manages layouts at the OS level — not per physical device. When you switch
+Windows manages layouts at the OS level - not per physical device. When you switch
 between keyboards (laptop built-in, external USB, mechanical), Windows does not know
 which one you are typing on and applies hidden heuristics, leading to wrong layouts.
 
@@ -33,7 +39,7 @@ which one you are typing on and applies hidden heuristics, leading to wrong layo
 
 **FR-DET-001**: Enumerate all connected keyboards on startup.
 - USB: extract VID:PID from Raw Input device path
-- Built-in: detect ACPI/I8042 devices → assign special ID `BUILTIN`
+- Built-in: detect ACPI/I8042 devices -> assign special ID `BUILTIN`
 - Show friendly name (user-editable alias)
 - Persist device identifiers across restarts
 
@@ -76,7 +82,7 @@ which one you are typing on and applies hidden heuristics, leading to wrong layo
 - App starts minimized to tray
 - Tray menu: "Open Dashboard", "Quit"
 - Close button minimizes to tray (not exit)
-- Tooltip: `SwitchcraftKeys — [Device]: [Layout]`
+- Tooltip: `SwitchcraftKeys - [Device]: [Layout]`
 
 **FR-UI-003**: Debug overlay (Phase 1 simplified).
 - Always-on-top floating window
@@ -86,7 +92,7 @@ which one you are typing on and applies hidden heuristics, leading to wrong layo
 
 **FR-UI-004**: Layout selector format.
 - Display: `LANG - NAME` (e.g., `POR - United States-International`, `ENG - US`)
-- Cascading: language group → layout name
+- Cascading: language group -> layout name
 
 ### 2.5 System Integration
 
@@ -96,7 +102,7 @@ which one you are typing on and applies hidden heuristics, leading to wrong layo
 
 **FR-SYS-002**: No admin privileges required.
 - Raw Input API works at user level
-- `%APPDATA%` config — no system-wide write
+- `%APPDATA%` config - no system-wide write
 
 ---
 
@@ -108,17 +114,17 @@ which one you are typing on and applies hidden heuristics, leading to wrong layo
 
 **NFR-PERF-002**: Layout switching < 500 ms from keystroke detection.
 
-**NFR-PERF-003**: UI remains responsive — no blocking calls on UI thread.
+**NFR-PERF-003**: UI remains responsive - no blocking calls on UI thread.
 
 **NFR-PERF-004**: Keystroke hook latency < 1 ms (Raw Input is passive, minimal overhead).
 
 ### 3.2 Reliability
 
-**NFR-REL-001**: Missing layout → log warning, remove from config, notify user.
+**NFR-REL-001**: Missing layout -> log warning, remove from config, notify user.
 
-**NFR-REL-002**: Config corruption → auto-recover from backup, start fresh if all fail.
+**NFR-REL-002**: Config corruption -> auto-recover from backup, start fresh if all fail.
 
-**NFR-REL-003**: Layout switch failure → retry up to 3×, log error, do not crash.
+**NFR-REL-003**: Layout switch failure -> retry up to 3x, log error, do not crash.
 
 ### 3.3 Security
 
@@ -128,7 +134,7 @@ which one you are typing on and applies hidden heuristics, leading to wrong layo
 
 ### 3.4 Deployment
 
-**NFR-DEP-001**: Single `.exe` — no installer, no extra runtime downloads beyond .NET 8.
+**NFR-DEP-001**: Single `.exe` - no installer, no extra runtime downloads beyond .NET 8.
 
 **NFR-DEP-002**: Binary size target < 15 MB.
 
@@ -200,9 +206,9 @@ Location: `%APPDATA%\SwitchcraftKeys\config.json`
 
 | Term | Definition |
 |------|-----------|
-| VID/PID | Vendor ID / Product ID — unique USB device identifiers |
-| KLID | Keyboard Layout Identifier — 8-char hex string used by Windows |
-| HKL | Handle to Keyboard Layout — runtime handle returned by Windows |
+| VID/PID | Vendor ID / Product ID - unique USB device identifiers |
+| KLID | Keyboard Layout Identifier - 8-char hex string used by Windows |
+| HKL | Handle to Keyboard Layout - runtime handle returned by Windows |
 | Raw Input | Windows API for low-level device input before OS processing |
 | BUILTIN | Special device ID assigned to built-in/laptop keyboards |
-| ACPI | Advanced Configuration and Power Interface — how BIOS keyboards appear in device tree |
+| ACPI | Advanced Configuration and Power Interface - how BIOS keyboards appear in device tree |

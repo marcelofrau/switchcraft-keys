@@ -49,6 +49,7 @@
         <div class="sidebar-heading">Overview</div>
         <ul class="sidebar-links">
           <li><a href="{{ '/docs' | relative_url }}" {% if page.url == '/docs' or page.url == '/docs.html' %}class="active"{% endif %}>Documentation Index</a></li>
+          <li><a href="{{ '/specification' | relative_url }}" {% if page.url contains 'specification' %}class="active"{% endif %}>Specification</a></li>
           <li><a href="{{ '/requirements' | relative_url }}" {% if page.url contains 'requirements' %}class="active"{% endif %}>Requirements</a></li>
           <li><a href="{{ '/roadmap' | relative_url }}" {% if page.url contains 'roadmap' %}class="active"{% endif %}>Roadmap</a></li>
         </ul>
@@ -61,6 +62,7 @@
           <li><a href="{{ '/windows-interop' | relative_url }}" {% if page.url contains 'windows-interop' %}class="active"{% endif %}>Windows Interop</a></li>
           <li><a href="{{ '/design-decisions' | relative_url }}" {% if page.url contains 'design-decisions' %}class="active"{% endif %}>Design Decisions</a></li>
           <li><a href="{{ '/theme' | relative_url }}" {% if page.url contains 'theme' %}class="active"{% endif %}>Luna Theme</a></li>
+          <li><a href="{{ '/ux-design' | relative_url }}" {% if page.url contains 'ux-design' %}class="active"{% endif %}>UX Design</a></li>
         </ul>
       </div>
 
@@ -81,6 +83,9 @@
           <li><a href="{{ '/cli-reference' | relative_url }}" {% if page.url contains 'cli-reference' %}class="active"{% endif %}>CLI Reference</a></li>
           <li><a href="{{ '/build-scripts' | relative_url }}" {% if page.url contains 'build-scripts' %}class="active"{% endif %}>Build Scripts</a></li>
           <li><a href="{{ '/assets-guide' | relative_url }}" {% if page.url contains 'assets-guide' %}class="active"{% endif %}>Assets Guide</a></li>
+          <li><a href="{{ '/icon-set-sync' | relative_url }}" {% if page.url contains 'icon-set-sync' %}class="active"{% endif %}>Icon Set Sync</a></li>
+          <li><a href="{{ '/versioning' | relative_url }}" {% if page.url contains 'versioning' %}class="active"{% endif %}>Versioning</a></li>
+          <li><a href="{{ '/vscode-setup' | relative_url }}" {% if page.url contains 'vscode-setup' %}class="active"{% endif %}>VS Code Setup</a></li>
         </ul>
       </div>
 
@@ -118,18 +123,49 @@
   </div>
 
   <script>
-    // Initialize Mermaid with Luna theme colors
+    // Initialize Mermaid with Windows 95 teal + Luna silver colors.
     mermaid.initialize({
-      startOnLoad: true,
+      startOnLoad: false,
       theme: 'base',
+      securityLevel: 'loose',
+      flowchart: {
+        curve: 'basis',
+        nodeSpacing: 55,
+        rankSpacing: 70,
+        padding: 16,
+        useMaxWidth: true,
+        htmlLabels: true,
+        diagramPadding: 12
+      },
       themeVariables: {
+        background: '#002B2B',
         primaryColor: '#ECE9D8',
-        primaryTextColor: '#000000',
-        primaryBorderColor: '#245EDC',
-        lineColor: '#003399',
+        primaryTextColor: '#071C1C',
+        primaryBorderColor: '#008080',
+        lineColor: '#0A6F6F',
         secondaryColor: '#D4D0C8',
+        secondaryTextColor: '#071C1C',
+        secondaryBorderColor: '#005C5C',
         tertiaryColor: '#FFFFFF',
-        fontFamily: 'Segoe UI, Tahoma, sans-serif'
+        tertiaryTextColor: '#071C1C',
+        tertiaryBorderColor: '#7F9DB9',
+        edgeLabelBackground: '#F5F2E7',
+        clusterBkg: '#F5F2E7',
+        clusterBorder: '#008080',
+        titleColor: '#005C5C',
+        nodeTextColor: '#071C1C',
+        textColor: '#071C1C',
+        fontFamily: 'Segoe UI, Tahoma, sans-serif',
+        taskBkgColor: '#ECE9D8',
+        taskBorderColor: '#008080',
+        activeTaskBkgColor: '#BFD7F4',
+        activeTaskBorderColor: '#005C5C',
+        doneTaskBkgColor: '#D4D0C8',
+        doneTaskBorderColor: '#7F9DB9',
+        critBkgColor: '#FFE0E0',
+        critBorderColor: '#8E2A2A',
+        gridColor: '#7F9DB9',
+        todayLineColor: '#F28500'
       }
     });
 
@@ -141,16 +177,15 @@
 
     // Convert code blocks with language-mermaid to mermaid divs
     document.addEventListener('DOMContentLoaded', function() {
-      document.querySelectorAll('code.language-mermaid').forEach(code => {
+      document.querySelectorAll('pre > code.language-mermaid').forEach(code => {
         const pre = code.parentElement;
-        const div = document.createElement('div');
+        const div = document.createElement('pre');
         div.className = 'mermaid';
         div.textContent = code.textContent;
-        pre.parentElement.replaceChild(div, pre);
+        pre.replaceWith(div);
       });
 
-      // Re-render mermaid
-      mermaid.init(undefined, '.mermaid');
+      mermaid.run({ querySelector: '.mermaid' });
 
       // Make mermaid diagrams clickable
       document.querySelectorAll('.mermaid').forEach(diagram => {

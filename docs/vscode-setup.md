@@ -1,4 +1,10 @@
-# VSCode Setup Guide
+---
+layout: default
+title: VS Code Setup
+description: Development environment setup
+---
+
+# VS Code Setup Guide
 
 Complete guide to set up Visual Studio Code for SwitchcraftKeys development.
 
