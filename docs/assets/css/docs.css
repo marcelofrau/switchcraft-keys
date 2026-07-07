@@ -426,13 +426,13 @@ body {
 
 /* --- Mermaid Diagrams --- */
 .mermaid {
-  background: linear-gradient(180deg, #F5F2E7 0%, #ECE9D8 100%);
+  background: #FFFFFF;
   padding: 20px;
   border-radius: var(--border-radius-sm);
   border: 1px solid #008080;
   margin: 16px 0;
   text-align: center;
-  cursor: pointer;
+  cursor: zoom-in;
   transition: box-shadow 0.2s;
 }
 
@@ -440,51 +440,83 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Mermaid Lightbox */
-.mermaid-lightbox {
+/* Media Lightbox (images + Mermaid) */
+.media-lightbox {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 43, 43, 0.92);
   z-index: 2000;
   display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
-  cursor: zoom-out;
 }
 
-.mermaid-lightbox.active {
+.media-lightbox.open {
+  display: block;
+}
+
+.media-lightbox-toolbar {
+  position: absolute;
+  top: 14px;
+  right: 14px;
   display: flex;
+  gap: 8px;
+  z-index: 2;
 }
 
-.mermaid-lightbox-content {
+.media-lightbox-button {
+  border: 1px solid #BFD7F4;
   background: #ECE9D8;
-  border-radius: var(--border-radius);
-  padding: 30px;
-  max-width: 95vw;
-  max-height: 95vh;
-  overflow: auto;
-  cursor: default;
-  transform: scale(1);
-  transition: transform 0.2s;
-}
-
-.mermaid-lightbox-content.zoomed {
-  transform: scale(1.5);
-}
-
-.mermaid-lightbox-close {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: var(--bg-white);
-  border: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  font-size: 1.5rem;
+  color: #071C1C;
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.media-lightbox-button:hover {
+  border-color: #008080;
+}
+
+.media-lightbox-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  color: #DFF5F2;
+  font-size: 0.82rem;
+  z-index: 2;
+}
+
+.media-lightbox-viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+}
+
+.media-lightbox-viewport.dragging {
+  cursor: grabbing;
+}
+
+.media-lightbox-stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.media-lightbox-stage img,
+.media-lightbox-stage svg {
+  display: block;
+  max-width: none;
+  height: auto;
+  box-shadow: 0 10px 36px rgba(0,0,0,0.32);
+}
+
+.media-lightbox-stage .mermaid {
+  margin: 0;
+  min-width: 640px;
 }
 
 /* --- Syntax Highlighting (Rouge) --- */
@@ -560,7 +592,7 @@ body {
 @media print {
   .top-nav,
   .sidebar,
-  .mermaid-lightbox {
+  .media-lightbox {
     display: none !important;
   }
   

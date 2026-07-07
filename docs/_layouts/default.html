@@ -116,13 +116,9 @@
     <a href="https://github.com/{{ site.github_username }}/{{ site.repository | split: '/' | last }}/blob/main/LICENSE">MIT License</a>
   </footer>
 
-  <!-- Mermaid Lightbox -->
-  <div class="mermaid-lightbox" id="mermaidLightbox" onclick="closeMermaidLightbox()">
-    <button class="mermaid-lightbox-close" onclick="closeMermaidLightbox()">&times;</button>
-    <div class="mermaid-lightbox-content" id="mermaidLightboxContent" onclick="toggleZoom(event)"></div>
-  </div>
-
   <script>
+    const mermaidCodeMap = new Map();
+
     // Initialize Mermaid with Windows 95 teal + Luna silver colors.
     mermaid.initialize({
       startOnLoad: false,
@@ -138,33 +134,37 @@
         diagramPadding: 12
       },
       themeVariables: {
-        background: '#002B2B',
-        primaryColor: '#ECE9D8',
+        background: '#FFFFFF',
+        primaryColor: '#DFF5F2',
         primaryTextColor: '#071C1C',
-        primaryBorderColor: '#008080',
-        lineColor: '#0A6F6F',
-        secondaryColor: '#D4D0C8',
+        primaryBorderColor: '#78BDB7',
+        lineColor: '#6BA6A0',
+        secondaryColor: '#EAF2FF',
         secondaryTextColor: '#071C1C',
-        secondaryBorderColor: '#005C5C',
-        tertiaryColor: '#FFFFFF',
+        secondaryBorderColor: '#8FB4E8',
+        tertiaryColor: '#FFF0DC',
         tertiaryTextColor: '#071C1C',
-        tertiaryBorderColor: '#7F9DB9',
-        edgeLabelBackground: '#F5F2E7',
-        clusterBkg: '#F5F2E7',
-        clusterBorder: '#008080',
+        tertiaryBorderColor: '#E6B980',
+        edgeLabelBackground: '#FFF8EA',
+        clusterBkg: '#FAF7E8',
+        clusterBorder: '#B7B08A',
         titleColor: '#005C5C',
         nodeTextColor: '#071C1C',
         textColor: '#071C1C',
         fontFamily: 'Segoe UI, Tahoma, sans-serif',
-        taskBkgColor: '#ECE9D8',
-        taskBorderColor: '#008080',
-        activeTaskBkgColor: '#BFD7F4',
-        activeTaskBorderColor: '#005C5C',
-        doneTaskBkgColor: '#D4D0C8',
-        doneTaskBorderColor: '#7F9DB9',
-        critBkgColor: '#FFE0E0',
-        critBorderColor: '#8E2A2A',
-        gridColor: '#7F9DB9',
+        cScale0: '#DFF5F2', cScale1: '#EAF2FF', cScale2: '#FFF0DC',
+        cScale3: '#E8F5E9', cScale4: '#F3E8FF', cScale5: '#FFE8E8',
+        cScaleLabel0: '#071C1C', cScaleLabel1: '#071C1C', cScaleLabel2: '#071C1C',
+        cScaleLabel3: '#071C1C', cScaleLabel4: '#071C1C', cScaleLabel5: '#071C1C',
+        taskBkgColor: '#EAF2FF',
+        taskBorderColor: '#8FB4E8',
+        activeTaskBkgColor: '#DFF5F2',
+        activeTaskBorderColor: '#78BDB7',
+        doneTaskBkgColor: '#E8F5E9',
+        doneTaskBorderColor: '#9CCFA5',
+        critBkgColor: '#FFE8E8',
+        critBorderColor: '#E8A0A0',
+        gridColor: '#D4D0C8',
         todayLineColor: '#F28500'
       }
     });
@@ -181,57 +181,160 @@
         const pre = code.parentElement;
         const div = document.createElement('pre');
         div.className = 'mermaid';
+        const id = 'mermaid-' + Math.random().toString(36).slice(2);
+        div.id = id;
         div.textContent = code.textContent;
+        mermaidCodeMap.set(id, code.textContent);
         pre.replaceWith(div);
       });
 
-      mermaid.run({ querySelector: '.mermaid' });
-
-      // Make mermaid diagrams clickable
-      document.querySelectorAll('.mermaid').forEach(diagram => {
-        diagram.addEventListener('click', () => openMermaidLightbox(diagram));
-      });
+      mermaid.run({ querySelector: '.mermaid' }).then(initMediaLightbox);
     });
 
-    // Mermaid lightbox
-    function openMermaidLightbox(diagram) {
-      const content = document.getElementById('mermaidLightboxContent');
-      content.innerHTML = diagram.innerHTML;
-      document.getElementById('mermaidLightbox').classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
+    function initMediaLightbox() {
+      const overlay = document.createElement('div');
+      overlay.className = 'media-lightbox';
+      overlay.innerHTML = `
+        <div class="media-lightbox-toolbar">
+          <button type="button" class="media-lightbox-button" data-action="reset">Reset Zoom</button>
+          <button type="button" class="media-lightbox-button" data-action="close">Close</button>
+        </div>
+        <div class="media-lightbox-viewport">
+          <div class="media-lightbox-stage"></div>
+        </div>
+        <div class="media-lightbox-hint">Scroll to zoom - Drag to pan - Esc to close</div>
+      `;
+      document.body.appendChild(overlay);
 
-    function closeMermaidLightbox() {
-      document.getElementById('mermaidLightbox').classList.remove('active');
-      document.getElementById('mermaidLightboxContent').classList.remove('zoomed');
-      document.body.style.overflow = '';
-    }
+      const viewport = overlay.querySelector('.media-lightbox-viewport');
+      const stage = overlay.querySelector('.media-lightbox-stage');
+      const closeBtn = overlay.querySelector('[data-action="close"]');
+      const resetBtn = overlay.querySelector('[data-action="reset"]');
+      let isOpen = false;
+      let scale = 1;
+      let fitScale = 1;
+      let offsetX = 0;
+      let offsetY = 0;
+      let dragging = false;
+      let startX = 0;
+      let startY = 0;
 
-    function toggleZoom(event) {
-      event.stopPropagation();
-      document.getElementById('mermaidLightboxContent').classList.toggle('zoomed');
-    }
-
-    // Keyboard shortcuts
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeMermaidLightbox();
+      function applyTransform() {
+        stage.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px)) scale(${scale})`;
       }
-    });
+
+      function fitToViewport() {
+        const item = stage.querySelector('svg, img');
+        if (!item) return 1;
+        let w = item.naturalWidth || item.clientWidth || 800;
+        let h = item.naturalHeight || item.clientHeight || 500;
+        if (item.tagName.toLowerCase() === 'svg') {
+          const vb = item.viewBox && item.viewBox.baseVal;
+          w = vb && vb.width ? vb.width : item.getBBox().width;
+          h = vb && vb.height ? vb.height : item.getBBox().height;
+          item.style.width = w + 'px';
+          item.style.height = h + 'px';
+        }
+        return Math.min((viewport.clientWidth * 0.9) / w, (viewport.clientHeight * 0.9) / h, 1);
+      }
+
+      function resetTransform() {
+        fitScale = fitToViewport();
+        scale = fitScale;
+        offsetX = 0;
+        offsetY = 0;
+        applyTransform();
+      }
+
+      function openStage() {
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        isOpen = true;
+        requestAnimationFrame(resetTransform);
+      }
+
+      function closeLightbox() {
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+        stage.innerHTML = '';
+        isOpen = false;
+      }
+
+      document.querySelectorAll('.content-body .mermaid').forEach(diagram => {
+        diagram.addEventListener('click', () => {
+          const code = mermaidCodeMap.get(diagram.id);
+          if (!code) return;
+          stage.innerHTML = '';
+          const pre = document.createElement('pre');
+          pre.className = 'mermaid';
+          pre.textContent = code;
+          stage.appendChild(pre);
+          overlay.classList.add('open');
+          document.body.style.overflow = 'hidden';
+          isOpen = true;
+          mermaid.run({ querySelector: '.media-lightbox-stage .mermaid' }).then(resetTransform);
+        });
+      });
+
+      document.querySelectorAll('.content-body img').forEach(img => {
+        if (img.closest('a')) return;
+        img.addEventListener('click', () => {
+          stage.innerHTML = '';
+          const clone = document.createElement('img');
+          clone.src = img.src;
+          clone.alt = img.alt || '';
+          stage.appendChild(clone);
+          openStage();
+        });
+      });
+
+      closeBtn.addEventListener('click', closeLightbox);
+      resetBtn.addEventListener('click', resetTransform);
+      overlay.addEventListener('click', event => { if (event.target === overlay) closeLightbox(); });
+      document.addEventListener('keydown', event => { if (isOpen && event.key === 'Escape') closeLightbox(); });
+      viewport.addEventListener('wheel', event => {
+        if (!isOpen) return;
+        event.preventDefault();
+        scale = Math.min(60, Math.max(0.05, scale * (event.deltaY < 0 ? 1.12 : 0.88)));
+        applyTransform();
+      }, { passive: false });
+      viewport.addEventListener('pointerdown', event => {
+        if (!isOpen) return;
+        event.preventDefault();
+        dragging = true;
+        startX = event.clientX;
+        startY = event.clientY;
+        viewport.classList.add('dragging');
+        viewport.setPointerCapture(event.pointerId);
+      });
+      viewport.addEventListener('pointermove', event => {
+        if (!dragging || !isOpen) return;
+        offsetX += event.clientX - startX;
+        offsetY += event.clientY - startY;
+        startX = event.clientX;
+        startY = event.clientY;
+        applyTransform();
+      });
+      ['pointerup', 'pointercancel'].forEach(name => viewport.addEventListener(name, () => {
+        dragging = false;
+        viewport.classList.remove('dragging');
+      }));
+    }
 
     // Auto-colorize hex codes in code blocks
-    document.querySelectorAll('code').forEach(code => {
-      const text = code.textContent;
-      const hexMatch = text.match(/^#([0-9A-Fa-f]{6})$/);
-      if (hexMatch) {
-        code.style.backgroundColor = text;
-        // Calculate contrast color
-        const r = parseInt(hexMatch[1].substr(0, 2), 16);
-        const g = parseInt(hexMatch[1].substr(2, 2), 16);
-        const b = parseInt(hexMatch[1].substr(4, 2), 16);
-        const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-        code.style.color = luminance > 0.5 ? '#000' : '#FFF';
-      }
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('code').forEach(code => {
+        const text = code.textContent;
+        const hexMatch = text.match(/^#([0-9A-Fa-f]{6})$/);
+        if (hexMatch) {
+          code.style.backgroundColor = text;
+          const r = parseInt(hexMatch[1].substr(0, 2), 16);
+          const g = parseInt(hexMatch[1].substr(2, 2), 16);
+          const b = parseInt(hexMatch[1].substr(4, 2), 16);
+          const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+          code.style.color = luminance > 0.5 ? '#000' : '#FFF';
+        }
+      });
     });
   </script>
 </body>
