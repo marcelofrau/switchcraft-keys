@@ -43,6 +43,12 @@ All third-party icons and images used in this project are listed here with their
 | `docs/assets/images/site-icons/feature-theme-100.png` | icons8-color-palette | fluency | Icons8 free with attribution |
 | `docs/assets/images/site-icons/feature-backup-100.png` | icons8-database-3d | 3d-fluency | Icons8 free with attribution |
 | `docs/assets/images/site-icons/feature-cli-100.png` | icons8-command-line | fluency | Icons8 free with attribution |
+| `docs/assets/images/site-icons/nav-keyboard-16.png` | icons8-keyboard | 3d-fluency | Icons8 free with attribution |
+| `docs/assets/images/site-icons/nav-cli-16.png` | icons8-command-line | fluency | Icons8 free with attribution |
+| `docs/assets/images/site-icons/nav-search-16.png` | icons8-search | fluency | Icons8 free with attribution |
+| `docs/assets/images/site-icons/nav-package-16.png` | icons8-archive | fluency | Icons8 free with attribution |
+| `docs/assets/images/site-icons/nav-architecture-16.png` | icons8-database-3d | 3d-fluency | Icons8 free with attribution |
+| `docs/assets/images/site-icons/nav-github-16.png` | icons8-lightning-bolt-3d | 3d-fluency | Icons8 free with attribution |
 
 ## Fonts
 

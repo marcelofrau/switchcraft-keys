@@ -11,7 +11,7 @@ param(
 $Version = $Version -replace '^v', ''
 
 $root = Split-Path -Parent $PSScriptRoot
-$proj = Join-Path $root "src" $Project
+$proj = Join-Path (Join-Path $root "src") $Project
 $dist = Join-Path $root $OutputDir
 $rid = "win-$Arch"
 $zipName = "SwitchcraftKeys-v$Version-$rid.zip"
