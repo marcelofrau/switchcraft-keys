@@ -1,4 +1,4 @@
-# SwitchcraftKeys
+# Switchcraft Keys
 
 <img src="docs/images/social-preview.jpg" width="85%">
 
