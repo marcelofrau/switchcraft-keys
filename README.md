@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="docs/images/social-preview.jpg" alt="SwitchcraftKeys" width="85%">
+  <img src="docs/images/social-preview.png" alt="SwitchcraftKeys" width="85%">
 
   # SwitchcraftKeys
 
