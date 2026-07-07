@@ -44,7 +44,7 @@ public sealed class LoggerBootstrap : IDisposable
 
     /// <summary>
     /// Loads config, sets up the global Serilog logger (Console sink only if
-    /// a console is already attached — never allocates one — plus a File
+    /// a console is already attached or was explicitly allocated — plus a File
     /// sink that keeps the last <see cref="MaxRetainedLogFiles"/> runs), and
     /// returns an <see cref="ILoggerFactory"/> bridged via Serilog.Extensions.Logging.
     /// </summary>
@@ -65,9 +65,8 @@ public sealed class LoggerBootstrap : IDisposable
             .WriteTo.Sink(new ApplicationLogSink(_applicationLogService))
             .WriteTo.File(logFilePath, outputTemplate: outputTemplate, shared: false);
 
-        // Never allocate/attach a console — only write to one that already
-        // exists (e.g. process launched from run.ps1 / an existing terminal).
-        // A double-clicked WinExe launch has no console, so this stays silent.
+        // Only write to an existing console. Program.cs may explicitly create
+        // one for --console; double-clicked WinExe launch stays silent.
         if (ConsoleApi.HasConsole
             || Environment.GetEnvironmentVariable("SWITCHCRAFTKEYS_FORCE_CONSOLE_LOG") == "1")
         {

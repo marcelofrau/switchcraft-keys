@@ -23,6 +23,8 @@ public partial class App : Application
 
     public static ILayoutService? LayoutService { get; set; }
 
+    public static IApplicationControlService? ApplicationControlService { get; set; }
+
     public static ApplicationLogService ApplicationLogService { get; set; } = new();
 
     public static Action<LogLevel>? UpdateMinimumLogLevel { get; set; }
@@ -38,6 +40,7 @@ public partial class App : Application
         {
             var deviceService = DeviceService ?? new DeviceService(LoggerFactory.CreateLogger<DeviceService>());
             var layoutService = LayoutService ?? new LayoutService(LoggerFactory.CreateLogger<LayoutService>());
+            var applicationControlService = ApplicationControlService ?? new ApplicationControlService(LoggerFactory.CreateLogger<ApplicationControlService>());
 
             desktop.MainWindow = new MainWindow(deviceService, LoggerFactory.CreateLogger<MainWindow>())
             {
@@ -46,6 +49,7 @@ public partial class App : Application
                     ConfigService,
                     deviceService,
                     layoutService,
+                    applicationControlService,
                     ApplicationLogService,
                     UpdateMinimumLogLevel),
             };

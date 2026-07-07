@@ -106,6 +106,24 @@
     <Style Selector="ComboBox.xp-combo:pointerover">
       <Setter Property="BorderBrush" Value="#3A7CC8" />
     </Style>
+    <Style Selector="Border.setting-card">
+      <Setter Property="Background" Value="#F4F9FF" />
+      <Setter Property="BorderBrush" Value="#C7DBF1" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="14" />
+      <Setter Property="Padding" Value="16" />
+    </Style>
+    <Style Selector="Button.setting-action">
+      <Setter Property="Background" Value="#FFFFFF" />
+      <Setter Property="BorderBrush" Value="#BFD4EF" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="Padding" Value="12,7" />
+    </Style>
+    <Style Selector="Button.setting-action:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="#EDF7FF" />
+      <Setter Property="BorderBrush" Value="#7DAFE4" />
+    </Style>
   </Window.Styles>
 
   <Grid ColumnDefinitions="260,*" Background="#EAF2FB">
@@ -341,27 +359,125 @@
         </Border>
 
         <Border Classes="panel" Padding="22" IsVisible="{Binding IsSettingsSelected}">
-          <Grid RowDefinitions="Auto,Auto,*" RowSpacing="22">
+          <Grid RowDefinitions="Auto,*,Auto" RowSpacing="18">
             <StackPanel Spacing="5">
               <TextBlock Text="Settings" FontSize="24" FontWeight="Bold" Foreground="#17365E" />
-              <TextBlock Text="Configure runtime behavior. Changes are explicit: save or discard." Foreground="#6B829B" />
+              <TextBlock Text="Configure runtime behavior and open app folders for troubleshooting." Foreground="#6B829B" />
             </StackPanel>
 
-            <Border Grid.Row="1" Background="#F4F9FF" BorderBrush="#C7DBF1" BorderThickness="1" CornerRadius="14" Padding="18">
-              <Grid ColumnDefinitions="Auto,*" ColumnSpacing="22">
-                <StackPanel Spacing="5">
-                  <TextBlock Text="Minimum log level" FontSize="18" FontWeight="Bold" Foreground="#17365E" />
-                  <TextBlock Text="Controls console, file, and in-app log verbosity for the current run and future launches."
-                             TextWrapping="Wrap" Foreground="#526F8D" />
-                </StackPanel>
-                <ComboBox Grid.Column="1"
-                          Classes="xp-combo"
-                          ItemsSource="{Binding LogLevels}"
-                          SelectedItem="{Binding SelectedLogLevel, Mode=TwoWay}"
-                          HorizontalAlignment="Stretch"
-                          VerticalAlignment="Center" />
-              </Grid>
-            </Border>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+              <StackPanel Spacing="14">
+                <Border Classes="setting-card">
+                  <Grid ColumnDefinitions="Auto,*,220" ColumnSpacing="16">
+                    <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-console-32.png" Width="32" Height="32" VerticalAlignment="Top" />
+                    <StackPanel Grid.Column="1" Spacing="5">
+                      <TextBlock Text="Minimum log level" FontSize="18" FontWeight="Bold" Foreground="#17365E" />
+                      <TextBlock Text="Controls console, file, and in-app log verbosity for the current run and future launches."
+                                 TextWrapping="Wrap" Foreground="#526F8D" />
+                    </StackPanel>
+                    <ComboBox Grid.Column="2"
+                              Classes="xp-combo"
+                              ItemsSource="{Binding LogLevels}"
+                              SelectedItem="{Binding SelectedLogLevel, Mode=TwoWay}"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Center" />
+                  </Grid>
+                </Border>
+
+                <Border Classes="setting-card">
+                  <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="16">
+                    <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-opened-folder-32.png" Width="32" Height="32" VerticalAlignment="Top" />
+                    <StackPanel Grid.Column="1" Spacing="5">
+                      <TextBlock Text="App folders" FontSize="18" FontWeight="Bold" Foreground="#17365E" />
+                      <TextBlock Text="Open settings/logs in %APPDATA%\SwitchcraftKeys or cache in %LOCALAPPDATA%\SwitchcraftKeys\cache."
+                                 TextWrapping="Wrap" Foreground="#526F8D" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                      <Button Classes="setting-action" Command="{Binding OpenSettingsDirectoryCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                          <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-opened-folder-32.png" Width="18" Height="18" />
+                          <TextBlock Text="Settings" Foreground="#285F9E" FontWeight="SemiBold" />
+                        </StackPanel>
+                      </Button>
+                      <Button Classes="setting-action" Command="{Binding OpenCacheDirectoryCommand}">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                          <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-opened-folder-32.png" Width="18" Height="18" />
+                          <TextBlock Text="Cache" Foreground="#285F9E" FontWeight="SemiBold" />
+                        </StackPanel>
+                      </Button>
+                    </StackPanel>
+                  </Grid>
+                </Border>
+
+                <Border Classes="setting-card">
+                  <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="16">
+                    <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-settings-32.png" Width="32" Height="32" VerticalAlignment="Top" />
+                    <StackPanel Grid.Column="1" Spacing="5">
+                      <TextBlock Text="Windows keyboard layouts" FontSize="18" FontWeight="Bold" Foreground="#17365E" />
+                      <TextBlock Text="Open Windows Language &amp; Region settings to add keyboard layouts before assigning them here."
+                                 TextWrapping="Wrap" Foreground="#526F8D" />
+                    </StackPanel>
+                    <Button Grid.Column="2" Classes="setting-action" Command="{Binding OpenWindowsKeyboardSettingsCommand}" VerticalAlignment="Center">
+                      <StackPanel Orientation="Horizontal" Spacing="6">
+                        <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-settings-32.png" Width="18" Height="18" />
+                        <TextBlock Text="Open Windows" Foreground="#285F9E" FontWeight="SemiBold" />
+                      </StackPanel>
+                    </Button>
+                  </Grid>
+                </Border>
+
+                <Border Classes="setting-card">
+                  <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="16">
+                    <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-broom-32.png" Width="32" Height="32" VerticalAlignment="Top" />
+                    <StackPanel Grid.Column="1" Spacing="5">
+                      <TextBlock Text="Reset cache" FontSize="18" FontWeight="Bold" Foreground="#17365E" />
+                      <TextBlock Text="Clear cached runtime data without deleting device mappings or log files."
+                                 TextWrapping="Wrap" Foreground="#526F8D" />
+                    </StackPanel>
+                    <Button Grid.Column="2" Classes="setting-action" Command="{Binding ResetCacheCommand}" VerticalAlignment="Center">
+                      <StackPanel Orientation="Horizontal" Spacing="6">
+                        <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-broom-32.png" Width="18" Height="18" />
+                        <TextBlock Text="Reset cache" Foreground="#285F9E" FontWeight="SemiBold" />
+                      </StackPanel>
+                    </Button>
+                  </Grid>
+                </Border>
+
+                <Border Classes="setting-card" BorderBrush="#E9A7A7" Background="#FFF4F4">
+                  <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="16">
+                    <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-shutdown-48.png" Width="32" Height="32" VerticalAlignment="Top" />
+                    <StackPanel Grid.Column="1" Spacing="5">
+                      <TextBlock Text="Reset all app data" FontSize="18" FontWeight="Bold" Foreground="#7A1F1F" />
+                      <TextBlock Text="Delete settings, backups, logs, and cache. Restart the app afterward to recreate defaults."
+                                 TextWrapping="Wrap" Foreground="#7A4B4B" />
+                    </StackPanel>
+                    <Button Grid.Column="2" Background="#FFFFFF" BorderBrush="#D78383" BorderThickness="1" CornerRadius="8" Padding="12,7" Command="{Binding ResetDataCommand}" VerticalAlignment="Center">
+                      <StackPanel Orientation="Horizontal" Spacing="6">
+                        <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-shutdown-48.png" Width="18" Height="18" />
+                        <TextBlock Text="Reset data" Foreground="#9A2525" FontWeight="SemiBold" />
+                      </StackPanel>
+                    </Button>
+                  </Grid>
+                </Border>
+
+                <Border Classes="setting-card" BorderBrush="#BBD9B0" Background="#F3FFF0">
+                  <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="16">
+                    <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-restart-32.png" Width="32" Height="32" VerticalAlignment="Top" />
+                    <StackPanel Grid.Column="1" Spacing="5">
+                      <TextBlock Text="Restart application" FontSize="18" FontWeight="Bold" Foreground="#276536" />
+                      <TextBlock Text="Close this process and start SwitchcraftKeys again with the same executable."
+                                 TextWrapping="Wrap" Foreground="#4F7358" />
+                    </StackPanel>
+                    <Button Grid.Column="2" Background="{StaticResource LunaSuccessBrush}" BorderBrush="#2F6C3F" BorderThickness="1" CornerRadius="8" Padding="12,7" Command="{Binding RestartApplicationCommand}" VerticalAlignment="Center">
+                      <StackPanel Orientation="Horizontal" Spacing="6">
+                        <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-restart-32.png" Width="18" Height="18" />
+                        <TextBlock Text="Restart now" Foreground="White" FontWeight="SemiBold" />
+                      </StackPanel>
+                    </Button>
+                  </Grid>
+                </Border>
+              </StackPanel>
+            </ScrollViewer>
 
             <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="10" HorizontalAlignment="Right" VerticalAlignment="Bottom">
               <Button Command="{Binding DiscardSettingsCommand}" Background="#FFFFFF" BorderBrush="#BFD4EF" BorderThickness="1" CornerRadius="8" Padding="14,8">

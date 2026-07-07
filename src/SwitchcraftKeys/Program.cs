@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Microsoft.Extensions.Logging;
+using SwitchcraftKeys.Interop;
 using SwitchcraftKeys.Logging;
 using SwitchcraftKeys.Services;
 
@@ -14,6 +15,11 @@ internal sealed class Program
     {
         try
         {
+            if (args.Any(arg => string.Equals(arg, "--console", StringComparison.OrdinalIgnoreCase)))
+            {
+                ConsoleApi.EnsureConsole();
+            }
+
             // Parse CLI args before any logging setup
             foreach (var arg in args)
             {
@@ -43,6 +49,9 @@ internal sealed class Program
                     case "-r":
                         HandleResetData();
                         return;
+
+                    case "--console":
+                        break;
                 }
             }
 
@@ -63,6 +72,7 @@ internal sealed class Program
             App.ConfigService = configService;
             App.DeviceService = new DeviceService(loggerFactory.CreateLogger<DeviceService>());
             App.LayoutService = new LayoutService(loggerFactory.CreateLogger<LayoutService>());
+            App.ApplicationControlService = new ApplicationControlService(loggerFactory.CreateLogger<ApplicationControlService>());
             App.ApplicationLogService = applicationLogService;
             App.UpdateMinimumLogLevel = loggerBootstrap.UpdateMinimumLevel;
 
@@ -113,10 +123,12 @@ internal sealed class Program
         Console.WriteLine("  --check              Run health checks and print report");
         Console.WriteLine("  --reset-cache, -c    Clear device layout cache");
         Console.WriteLine("  --reset-data, -r     Reset all app data (config, cache, logs)");
+        Console.WriteLine("  --console            Force-open a diagnostics console for GUI logging");
         Console.WriteLine();
         Console.WriteLine("EXAMPLES:");
         Console.WriteLine("  SwitchcraftKeys                Normal startup");
         Console.WriteLine("  SwitchcraftKeys --check        Run diagnostics");
+        Console.WriteLine("  SwitchcraftKeys --console      Start GUI with console logging");
         Console.WriteLine("  SwitchcraftKeys --reset-cache  Clear cache and exit");
         Console.WriteLine("  SwitchcraftKeys --reset-data   Reset everything and exit");
         Console.WriteLine();

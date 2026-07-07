@@ -14,6 +14,7 @@ public partial class MainViewModel : ObservableObject
     private readonly IConfigService _configService;
     private readonly IDeviceService _deviceService;
     private readonly ILayoutService _layoutService;
+    private readonly IApplicationControlService _applicationControlService;
     private readonly ApplicationLogService _applicationLogService;
     private readonly Action<LogLevel>? _updateMinimumLogLevel;
 
@@ -82,6 +83,7 @@ public partial class MainViewModel : ObservableObject
         IConfigService configService,
         IDeviceService deviceService,
         ILayoutService layoutService,
+        IApplicationControlService applicationControlService,
         ApplicationLogService applicationLogService,
         Action<LogLevel>? updateMinimumLogLevel)
     {
@@ -89,6 +91,7 @@ public partial class MainViewModel : ObservableObject
         _configService = configService;
         _deviceService = deviceService;
         _layoutService = layoutService;
+        _applicationControlService = applicationControlService;
         _applicationLogService = applicationLogService;
         _updateMinimumLogLevel = updateMinimumLogLevel;
 
@@ -285,6 +288,34 @@ public partial class MainViewModel : ObservableObject
         {
             _logger.LogInformation("All application data reset");
         }
+    }
+
+    [RelayCommand]
+    private void OpenSettingsDirectory()
+    {
+        _logger.LogInformation("Command dispatched command={Command} path={Path}", nameof(OpenSettingsDirectoryCommand), _applicationControlService.SettingsDirectory);
+        _applicationControlService.OpenSettingsDirectory();
+    }
+
+    [RelayCommand]
+    private void OpenCacheDirectory()
+    {
+        _logger.LogInformation("Command dispatched command={Command} path={Path}", nameof(OpenCacheDirectoryCommand), _applicationControlService.CacheDirectory);
+        _applicationControlService.OpenCacheDirectory();
+    }
+
+    [RelayCommand]
+    private void OpenWindowsKeyboardSettings()
+    {
+        _logger.LogInformation("Command dispatched command={Command}", nameof(OpenWindowsKeyboardSettingsCommand));
+        _applicationControlService.OpenWindowsKeyboardSettings();
+    }
+
+    [RelayCommand]
+    private void RestartApplication()
+    {
+        _logger.LogInformation("Command dispatched command={Command}", nameof(RestartApplicationCommand));
+        _applicationControlService.RestartApplication();
     }
 
     partial void OnSelectedKeyboardChanged(KeyboardDeviceViewModel? value)

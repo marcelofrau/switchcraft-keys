@@ -37,6 +37,8 @@ an icon is added via `/asset-manager add` or `/asset-manager batch`.
 | `src/SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-unlock-32.png` | icons8-unlock | fluency | Icons8 free with attribution |
 | `src/SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-shutdown-48.png` | icons8-shutdown | fluency | Icons8 free with attribution |
 | `src/SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-save-32.png` | icons8-save | fluency | Icons8 free with attribution |
+| `src/SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-opened-folder-32.png` | icons8-opened-folder | fluency | Icons8 free with attribution |
+| `src/SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-restart-32.png` | icons8-restart | fluency | Icons8 free with attribution |
 
 ---
 
