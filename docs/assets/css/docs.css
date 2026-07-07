@@ -434,7 +434,7 @@ body {
 
 /* --- Mermaid Diagrams --- */
 .mermaid {
-  background: #FFFFFF;
+  background: #FFFFFF !important;
   padding: 20px;
   border-radius: var(--border-radius-sm);
   border: 1px solid #008080;
@@ -442,6 +442,10 @@ body {
   text-align: center;
   cursor: zoom-in;
   transition: box-shadow 0.2s;
+}
+
+.mermaid svg {
+  background: #FFFFFF !important;
 }
 
 .mermaid:hover {
