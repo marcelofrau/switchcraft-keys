@@ -36,7 +36,7 @@ app_icon: /assets/images/app-icon.png
 logo: /assets/images/logo.png
 
 # Social/OG
-image: /assets/images/social-preview.png
+image: /images/social-preview.png
 twitter:
   card: summary_large_image
 

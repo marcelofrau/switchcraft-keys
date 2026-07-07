@@ -117,22 +117,24 @@ Notebook Keyboard (PT-BR)─┤    ↓
 ## 📸 Screenshots
 
 ### Dashboard
-![Dashboard](docs/screenshots/dashboard.png)  
-*Main interface showing detected keyboards, layout assignments, and settings.*
+![Dashboard](docs/screenshots/SwitchcraftKeys_main.png)  
+*Main interface showing detected keyboards and active layout state.*
 
-### Tray Integration
-![System Tray](docs/screenshots/tray-menu.png)  
-*System tray icon with quick access menu.*
+### Keyboard Details
+![Keyboard Details](docs/screenshots/SwitchcraftKeys_main2.png)  
+*Device details with alias, language, and layout selection.*
 
-### Debug Overlay
-![Debug Overlay](docs/screenshots/debug-overlay.png)  
-*Real-time event log and device detection diagnostics.*
+### Settings
+![Settings](docs/screenshots/SwitchcraftKeys_settings.png)  
+*Runtime actions, Windows input method scope, cache reset, and restart controls.*
 
-### Installer
-![NSIS Wizard](docs/screenshots/installer-wizard.png)  
-*Windows installer with Portuguese/English language selection.*
+### Logs
+![Logs](docs/screenshots/SwitchcraftKeys_logs.png)  
+*In-app log stream with structured events and copy/clear tools.*
 
-> Screenshots coming soon! [View placeholder images here.](docs/screenshots/)
+### About
+![About](docs/screenshots/SwitchcraftKeys_about.png)  
+*Version, author, mode, and credits.*
 
 ## 🖥️ Dashboard
 

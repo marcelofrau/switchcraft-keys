@@ -4,10 +4,11 @@ Place application screenshots here to showcase SwitchcraftKeys features in READM
 
 ## Expected Images
 
-- **dashboard.png** — Main window showing device list, layout selectors, reset buttons
-- **tray-menu.png** — System tray icon context menu (Open, Minimize, Exit)
-- **debug-overlay.png** — Debug overlay window with event log and device info
-- **installer-wizard.png** — NSIS installer welcome screen (MUI2 wizard style)
+- **SwitchcraftKeys_main.png** — Dashboard with detected keyboards and active layout state
+- **SwitchcraftKeys_main2.png** — Keyboard details with alias, language, and layout selection
+- **SwitchcraftKeys_settings.png** — Settings screen with app actions and Windows input method controls
+- **SwitchcraftKeys_logs.png** — In-app structured log stream
+- **SwitchcraftKeys_about.png** — About screen with version, author, mode, and credits
 
 ## Guidelines
 
@@ -29,7 +30,7 @@ Place application screenshots here to showcase SwitchcraftKeys features in READM
 
 Screenshots are referenced in README.md as:
 ```markdown
-![Dashboard](docs/screenshots/dashboard.png)
+![Dashboard](docs/screenshots/SwitchcraftKeys_main.png)
 ```
 
 After uploading images here, they will automatically appear in the README on GitHub.

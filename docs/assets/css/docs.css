@@ -26,8 +26,8 @@
   --luna-silver-darker: #ACA899;
   
   /* Backgrounds */
-  --bg-gradient-start: #0052CC;
-  --bg-gradient-end: #002266;
+  --bg-gradient-start: #062A63;
+  --bg-gradient-end: #010B23;
   --bg-taskbar: #245EDC;
   --bg-window: #ECE9D8;
   --bg-white: #FFFFFF;
@@ -77,7 +77,7 @@ body {
   font-size: 16px;
   line-height: 1.6;
   color: var(--text-dark);
-  background: var(--luna-silver);
+  background: linear-gradient(180deg, #062A63 0%, var(--luna-silver) 220px);
   min-height: 100vh;
 }
 

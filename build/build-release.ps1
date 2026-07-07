@@ -66,8 +66,8 @@ if ($Installer) {
     if (-not $makensis) {
         # Try common paths
         $paths = @(
-            "${env:ProgramFiles(x86)}\NSIS\makensis.exe",
-            "${env:ProgramFiles}\NSIS\makensis.exe"
+            "$([Environment]::GetEnvironmentVariable('ProgramFiles(x86)'))\NSIS\makensis.exe",
+            "$([Environment]::GetEnvironmentVariable('ProgramFiles'))\NSIS\makensis.exe"
         )
         foreach ($p in $paths) {
             if (Test-Path $p) { $makensis = $p; break }

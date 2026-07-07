@@ -39,6 +39,14 @@ an icon is added via `/asset-manager add` or `/asset-manager batch`.
 | `src/SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-save-32.png` | icons8-save | fluency | Icons8 free with attribution |
 | `src/SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-opened-folder-32.png` | icons8-opened-folder | fluency | Icons8 free with attribution |
 | `src/SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-restart-32.png` | icons8-restart | fluency | Icons8 free with attribution |
+| `docs/assets/images/site-icons/feature-search-100.png` | icons8-search | fluency | Icons8 free with attribution |
+| `docs/assets/images/site-icons/feature-keyboard-100.png` | icons8-keyboard | 3d-fluency | Icons8 free with attribution |
+| `docs/assets/images/site-icons/feature-lightning-100.png` | icons8-lightning-bolt-3d | 3d-fluency | Icons8 free with attribution |
+| `docs/assets/images/site-icons/feature-package-100.png` | icons8-archive-3d | 3d-fluency | Icons8 free with attribution |
+| `docs/assets/images/site-icons/feature-tray-100.png` | icons8-topic-push-notification | fluency | Icons8 free with attribution |
+| `docs/assets/images/site-icons/feature-theme-100.png` | icons8-color-palette | fluency | Icons8 free with attribution |
+| `docs/assets/images/site-icons/feature-backup-100.png` | icons8-database-3d | 3d-fluency | Icons8 free with attribution |
+| `docs/assets/images/site-icons/feature-cli-100.png` | icons8-command-line | fluency | Icons8 free with attribution |
 
 ---
 
