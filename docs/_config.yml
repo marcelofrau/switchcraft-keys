@@ -1,0 +1,56 @@
+# SwitchcraftKeys Documentation Site
+# Theme: Luna (Windows XP inspired)
+
+title: SwitchcraftKeys
+description: Device-aware keyboard layout manager for Windows
+theme: jekyll-theme-cayman
+
+url: "https://marcelofrau.github.io"
+baseurl: "/switchcraft-keys"
+
+# Markdown
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: false
+
+highlighter: rouge
+
+# Plugins
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-relative-links
+
+# Site metadata
+author: Marcelo Frau
+email: marcelofrau@gmail.com
+github_username: marcelofrau
+repository: marcelofrau/switchcraft-keys
+
+# Assets
+app_icon: /assets/images/app-icon.png
+logo: /assets/images/logo.png
+
+# Social/OG
+image: /assets/images/social-preview.png
+twitter:
+  card: summary_large_image
+
+# Build settings
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"

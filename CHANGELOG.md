@@ -5,86 +5,22 @@ All notable changes to SwitchcraftKeys will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [v0.1.0] - 2026-07-01
-
-### Added
-- 
-
-### Changed
-- 
-
-### Fixed
-- 
-
-## [v0.1.1] - 2026-07-01
-
-### Added
-- 
-
-### Changed
-- 
-
-### Fixed
-- 
-
-## [v0.1.0] - 2026-07-01
-
-### Added
-- 
-
-### Changed
-- 
-
-### Fixed
-- 
-
 ## [Unreleased]
 
 ### Added
-- (Placeholder for development changes)
+- CLI parameters: `--help`, `--version`, `--check`, `--reset-cache`, `--reset-data`
+- Health check system (PreFlightChecker) with config/cache/log validation
+- Settings commands: `ResetCacheCommand`, `ResetDataCommand` (UI integration ready)
+- Build scripts for portable release (zip) and Windows installer (NSIS)
+- GitHub Actions pipeline for CI/CD (Windows only, x64 + arm64 support)
+- NSIS installer script with wizard UI and uninstall support
 
 ### Changed
-- (Placeholder for development changes)
-
-### Fixed
-- (Placeholder for development changes)
+- Logging system: console sink only attaches to existing console (never allocates)
 
 ---
 
 ## [v0.1.0] - 2026-07-01
-
-### Added
-- 
-
-### Changed
-- 
-
-### Fixed
-- 
-
-## [v0.1.1] - 2026-07-01
-
-### Added
-- 
-
-### Changed
-- 
-
-### Fixed
-- 
-
-## [v0.1.0] - 2026-07-01
-
-### Added
-- 
-
-### Changed
-- 
-
-### Fixed
-- 
-
-## [0.1.0] - 2026-07-01
 
 ### Added
 - **Phase 1 MVP Release**
@@ -118,9 +54,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## Phase roadmap
+## Phase Roadmap
 
-**Phase 1 (v0.1.0)**: MVP complete. Focuses on core functionality: device detection, layout switching, basic UI.
+**Phase 1 (v0.1.0)**: MVP complete. Core functionality: device detection, layout switching, basic UI.
 
 **Phase 2 (v0.2.0)**: Enhanced features. Candidates: global hotkeys, per-app layouts, settings UI, dark mode.
 
@@ -130,4 +66,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **Maintained by**: Marcelo Frau <marcelofrau@gmail.com>  
 **License**: MIT  
-**Repository**: https://github.com/fraumar/switchcraft-keys (coming soon)
+**Repository**: https://github.com/marcelofrau/switchcraft-keys

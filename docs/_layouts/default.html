@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title | default: site.title }} - SwitchcraftKeys</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
+  
+  {% seo %}
+  
+  <link rel="icon" type="image/png" href="{{ '/assets/images/app-icon.png' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/docs.css' | relative_url }}">
+  
+  <!-- Mermaid -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <!-- Top Navigation -->
+  <nav class="top-nav">
+    <a href="{{ '/' | relative_url }}" class="nav-brand">
+      <img src="{{ '/assets/images/app-icon.png' | relative_url }}" alt="SwitchcraftKeys">
+      <span>SwitchcraftKeys</span>
+    </a>
+    
+    <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle navigation">☰</button>
+    
+    <ul class="nav-links" id="navLinks">
+      <li><a href="{{ '/' | relative_url }}">Home</a></li>
+      <li><a href="{{ '/user-manual' | relative_url }}" {% if page.url contains 'user-manual' %}class="nav-active"{% endif %}>Manual</a></li>
+      <li><a href="{{ '/troubleshooting' | relative_url }}" {% if page.url contains 'troubleshooting' %}class="nav-active"{% endif %}>Troubleshoot</a></li>
+      <li><a href="{{ '/docs' | relative_url }}" {% if page.url contains 'docs' %}class="nav-active"{% endif %}>Docs</a></li>
+      <li><a href="{{ '/architecture' | relative_url }}" {% if page.url contains 'architecture' %}class="nav-active"{% endif %}>Architecture</a></li>
+      <li><a href="https://github.com/{{ site.github_username }}/{{ site.repository | split: '/' | last }}" target="_blank">GitHub</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-heading">User Guide</div>
+        <ul class="sidebar-links">
+          <li><a href="{{ '/user-manual' | relative_url }}" {% if page.url contains 'user-manual' %}class="active"{% endif %}>User Manual</a></li>
+          <li><a href="{{ '/troubleshooting' | relative_url }}" {% if page.url contains 'troubleshooting' %}class="active"{% endif %}>Troubleshooting</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-heading">Overview</div>
+        <ul class="sidebar-links">
+          <li><a href="{{ '/docs' | relative_url }}" {% if page.url == '/docs' or page.url == '/docs.html' %}class="active"{% endif %}>Documentation Index</a></li>
+          <li><a href="{{ '/requirements' | relative_url }}" {% if page.url contains 'requirements' %}class="active"{% endif %}>Requirements</a></li>
+          <li><a href="{{ '/roadmap' | relative_url }}" {% if page.url contains 'roadmap' %}class="active"{% endif %}>Roadmap</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-heading">Architecture</div>
+        <ul class="sidebar-links">
+          <li><a href="{{ '/architecture' | relative_url }}" {% if page.url contains 'architecture' %}class="active"{% endif %}>Architecture</a></li>
+          <li><a href="{{ '/windows-interop' | relative_url }}" {% if page.url contains 'windows-interop' %}class="active"{% endif %}>Windows Interop</a></li>
+          <li><a href="{{ '/design-decisions' | relative_url }}" {% if page.url contains 'design-decisions' %}class="active"{% endif %}>Design Decisions</a></li>
+          <li><a href="{{ '/theme' | relative_url }}" {% if page.url contains 'theme' %}class="active"{% endif %}>Luna Theme</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-heading">How It Works</div>
+        <ul class="sidebar-links">
+          <li><a href="{{ '/raw-input' | relative_url }}" {% if page.url contains 'raw-input' %}class="active"{% endif %}>Raw Input API</a></li>
+          <li><a href="{{ '/device-detection' | relative_url }}" {% if page.url contains 'device-detection' %}class="active"{% endif %}>Device Detection</a></li>
+          <li><a href="{{ '/layout-switching' | relative_url }}" {% if page.url contains 'layout-switching' %}class="active"{% endif %}>Layout Switching</a></li>
+          <li><a href="{{ '/config-persistence' | relative_url }}" {% if page.url contains 'config-persistence' %}class="active"{% endif %}>Config & Backup</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-heading">Development</div>
+        <ul class="sidebar-links">
+          <li><a href="{{ '/implementation-plan' | relative_url }}" {% if page.url contains 'implementation-plan' %}class="active"{% endif %}>Implementation Plan</a></li>
+          <li><a href="{{ '/cli-reference' | relative_url }}" {% if page.url contains 'cli-reference' %}class="active"{% endif %}>CLI Reference</a></li>
+          <li><a href="{{ '/build-scripts' | relative_url }}" {% if page.url contains 'build-scripts' %}class="active"{% endif %}>Build Scripts</a></li>
+          <li><a href="{{ '/assets-guide' | relative_url }}" {% if page.url contains 'assets-guide' %}class="active"{% endif %}>Assets Guide</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-heading">Other</div>
+        <ul class="sidebar-links">
+          <li><a href="{{ '/attributions' | relative_url }}" {% if page.url contains 'attributions' %}class="active"{% endif %}>Attributions</a></li>
+          <li><a href="{{ '/changelog' | relative_url }}" {% if page.url contains 'changelog' %}class="active"{% endif %}>Changelog</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <article class="content-wrapper">
+        <div class="content-titlebar">{{ page.title | default: 'Documentation' }}</div>
+        <div class="content-body">
+          {{ content }}
+        </div>
+      </article>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="docs-footer">
+    &copy; {{ site.time | date: '%Y' }} {{ site.author }}. 
+    <a href="{{ '/attributions' | relative_url }}">Attributions</a> · 
+    <a href="https://github.com/{{ site.github_username }}/{{ site.repository | split: '/' | last }}/blob/main/LICENSE">MIT License</a>
+  </footer>
+
+  <!-- Mermaid Lightbox -->
+  <div class="mermaid-lightbox" id="mermaidLightbox" onclick="closeMermaidLightbox()">
+    <button class="mermaid-lightbox-close" onclick="closeMermaidLightbox()">&times;</button>
+    <div class="mermaid-lightbox-content" id="mermaidLightboxContent" onclick="toggleZoom(event)"></div>
+  </div>
+
+  <script>
+    // Initialize Mermaid with Luna theme colors
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        primaryColor: '#ECE9D8',
+        primaryTextColor: '#000000',
+        primaryBorderColor: '#245EDC',
+        lineColor: '#003399',
+        secondaryColor: '#D4D0C8',
+        tertiaryColor: '#FFFFFF',
+        fontFamily: 'Segoe UI, Tahoma, sans-serif'
+      }
+    });
+
+    // Mobile navigation
+    function toggleNav() {
+      document.getElementById('navLinks').classList.toggle('open');
+      document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    // Convert code blocks with language-mermaid to mermaid divs
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('code.language-mermaid').forEach(code => {
+        const pre = code.parentElement;
+        const div = document.createElement('div');
+        div.className = 'mermaid';
+        div.textContent = code.textContent;
+        pre.parentElement.replaceChild(div, pre);
+      });
+
+      // Re-render mermaid
+      mermaid.init(undefined, '.mermaid');
+
+      // Make mermaid diagrams clickable
+      document.querySelectorAll('.mermaid').forEach(diagram => {
+        diagram.addEventListener('click', () => openMermaidLightbox(diagram));
+      });
+    });
+
+    // Mermaid lightbox
+    function openMermaidLightbox(diagram) {
+      const content = document.getElementById('mermaidLightboxContent');
+      content.innerHTML = diagram.innerHTML;
+      document.getElementById('mermaidLightbox').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMermaidLightbox() {
+      document.getElementById('mermaidLightbox').classList.remove('active');
+      document.getElementById('mermaidLightboxContent').classList.remove('zoomed');
+      document.body.style.overflow = '';
+    }
+
+    function toggleZoom(event) {
+      event.stopPropagation();
+      document.getElementById('mermaidLightboxContent').classList.toggle('zoomed');
+    }
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeMermaidLightbox();
+      }
+    });
+
+    // Auto-colorize hex codes in code blocks
+    document.querySelectorAll('code').forEach(code => {
+      const text = code.textContent;
+      const hexMatch = text.match(/^#([0-9A-Fa-f]{6})$/);
+      if (hexMatch) {
+        code.style.backgroundColor = text;
+        // Calculate contrast color
+        const r = parseInt(hexMatch[1].substr(0, 2), 16);
+        const g = parseInt(hexMatch[1].substr(2, 2), 16);
+        const b = parseInt(hexMatch[1].substr(4, 2), 16);
+        const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+        code.style.color = luminance > 0.5 ? '#000' : '#FFF';
+      }
+    });
+  </script>
+</body>
+</html>
