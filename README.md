@@ -117,23 +117,23 @@ Notebook Keyboard (PT-BR)─┤    ↓
 ## 📸 Screenshots
 
 ### Dashboard
-![Dashboard](docs/screenshots/SwitchcraftKeys_main.png)  
+<img src="docs/screenshots/SwitchcraftKeys_main.png" alt="Dashboard" width="720">  
 *Main interface showing detected keyboards and active layout state.*
 
 ### Keyboard Details
-![Keyboard Details](docs/screenshots/SwitchcraftKeys_main2.png)  
+<img src="docs/screenshots/SwitchcraftKeys_main2.png" alt="Keyboard Details" width="720">  
 *Device details with alias, language, and layout selection.*
 
 ### Settings
-![Settings](docs/screenshots/SwitchcraftKeys_settings.png)  
+<img src="docs/screenshots/SwitchcraftKeys_settings.png" alt="Settings" width="720">  
 *Runtime actions, Windows input method scope, cache reset, and restart controls.*
 
 ### Logs
-![Logs](docs/screenshots/SwitchcraftKeys_logs.png)  
+<img src="docs/screenshots/SwitchcraftKeys_logs.png" alt="Logs" width="720">  
 *In-app log stream with structured events and copy/clear tools.*
 
 ### About
-![About](docs/screenshots/SwitchcraftKeys_about.png)  
+<img src="docs/screenshots/SwitchcraftKeys_about.png" alt="About" width="720">  
 *Version, author, mode, and credits.*
 
 ## 🖥️ Dashboard
