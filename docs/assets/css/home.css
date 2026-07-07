@@ -138,7 +138,9 @@ img {
 }
 
 .nav-links li a {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   padding: 6px 16px;
   color: var(--text-light);
   font-weight: 500;
@@ -148,6 +150,12 @@ img {
   border: 1px solid transparent;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
   transition: all 0.2s;
+}
+
+.nav-links li a img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
 }
 
 .nav-links li a:hover,

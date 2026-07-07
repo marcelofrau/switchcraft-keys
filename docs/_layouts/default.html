@@ -25,12 +25,12 @@
     <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle navigation">☰</button>
     
     <ul class="nav-links" id="navLinks">
-      <li><a href="{{ '/' | relative_url }}">Home</a></li>
-      <li><a href="{{ '/user-manual' | relative_url }}" {% if page.url contains 'user-manual' %}class="nav-active"{% endif %}>Manual</a></li>
-      <li><a href="{{ '/troubleshooting' | relative_url }}" {% if page.url contains 'troubleshooting' %}class="nav-active"{% endif %}>Troubleshoot</a></li>
-      <li><a href="{{ '/docs' | relative_url }}" {% if page.url contains 'docs' %}class="nav-active"{% endif %}>Docs</a></li>
-      <li><a href="{{ '/architecture' | relative_url }}" {% if page.url contains 'architecture' %}class="nav-active"{% endif %}>Architecture</a></li>
-      <li><a href="https://github.com/{{ site.github_username }}/{{ site.repository | split: '/' | last }}" target="_blank">GitHub</a></li>
+      <li><a href="{{ '/' | relative_url }}"><img src="{{ '/assets/images/site-icons/feature-keyboard-100.png' | relative_url }}" alt="">Home</a></li>
+      <li><a href="{{ '/user-manual' | relative_url }}" {% if page.url contains 'user-manual' %}class="nav-active"{% endif %}><img src="{{ '/assets/images/site-icons/feature-cli-100.png' | relative_url }}" alt="">Manual</a></li>
+      <li><a href="{{ '/troubleshooting' | relative_url }}" {% if page.url contains 'troubleshooting' %}class="nav-active"{% endif %}><img src="{{ '/assets/images/site-icons/feature-search-100.png' | relative_url }}" alt="">Troubleshoot</a></li>
+      <li><a href="{{ '/docs' | relative_url }}" {% if page.url contains 'docs' %}class="nav-active"{% endif %}><img src="{{ '/assets/images/site-icons/feature-package-100.png' | relative_url }}" alt="">Docs</a></li>
+      <li><a href="{{ '/architecture' | relative_url }}" {% if page.url contains 'architecture' %}class="nav-active"{% endif %}><img src="{{ '/assets/images/site-icons/feature-backup-100.png' | relative_url }}" alt="">Architecture</a></li>
+      <li><a href="https://github.com/{{ site.github_username }}/{{ site.repository | split: '/' | last }}" target="_blank"><img src="{{ '/assets/images/site-icons/feature-lightning-100.png' | relative_url }}" alt="">GitHub</a></li>
     </ul>
   </nav>
 
