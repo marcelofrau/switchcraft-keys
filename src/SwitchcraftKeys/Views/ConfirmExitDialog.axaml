@@ -1,0 +1,50 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="SwitchcraftKeys.Views.ConfirmExitDialog"
+        Title="Exit SwitchcraftKeys?"
+        Icon="/Assets/icon.ico"
+        Width="420" Height="230"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner"
+        Background="#F4F9FF">
+
+  <Border Padding="22" Background="#F4F9FF">
+    <Grid RowDefinitions="*,Auto" RowSpacing="20">
+      <Grid ColumnDefinitions="64,*" ColumnSpacing="18">
+        <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-shutdown-48.png"
+               Width="56" Height="56"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Top" />
+
+        <StackPanel Grid.Column="1" Spacing="8">
+          <TextBlock Text="Exit SwitchcraftKeys?"
+                     FontSize="22"
+                     FontWeight="Bold"
+                     Foreground="#17365E" />
+          <TextBlock Text="Keyboard monitoring and automatic layout switching will stop until you launch the app again."
+                     TextWrapping="Wrap"
+                     Foreground="#526F8D" />
+        </StackPanel>
+      </Grid>
+
+      <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+        <Button Click="OnCancelClicked"
+                Background="#FFFFFF"
+                BorderBrush="#BFD4EF"
+                BorderThickness="1"
+                CornerRadius="10"
+                Padding="16,8">
+          <TextBlock Text="Cancel" Foreground="#285F9E" FontWeight="SemiBold" />
+        </Button>
+        <Button Click="OnExitClicked"
+                Background="{StaticResource LunaErrorBrush}"
+                BorderBrush="#7F2020"
+                BorderThickness="1"
+                CornerRadius="10"
+                Padding="16,8">
+          <TextBlock Text="Exit app" Foreground="White" FontWeight="SemiBold" />
+        </Button>
+      </StackPanel>
+    </Grid>
+  </Border>
+</Window>

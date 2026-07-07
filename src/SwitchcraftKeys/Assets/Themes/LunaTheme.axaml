@@ -1,0 +1,79 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- =====================================================================
+       LUNA THEME — Color Tokens
+       Inspired by Windows XP Luna + Watercolor aesthetic
+       Light mode, soft gradients, rounded corners, muted shadows
+       ===================================================================== -->
+
+  <!-- Primary blue (Luna royal blue) -->
+  <Color x:Key="LunaPrimaryColor">#1C5FA8</Color>
+  <Color x:Key="LunaPrimaryLightColor">#3A7CC8</Color>
+  <Color x:Key="LunaPrimaryDarkColor">#144A85</Color>
+
+  <!-- Secondary sage green -->
+  <Color x:Key="LunaSecondaryColor">#7B9E6E</Color>
+  <Color x:Key="LunaSecondaryLightColor">#9DBB8F</Color>
+
+  <!-- Backgrounds -->
+  <Color x:Key="LunaBackgroundColor">#F0F4F8</Color>
+  <Color x:Key="LunaSurfaceColor">#FFFFFF</Color>
+  <Color x:Key="LunaSurfaceAltColor">#EAF0F8</Color>
+
+  <!-- Borders -->
+  <Color x:Key="LunaBorderColor">#A8C4E0</Color>
+  <Color x:Key="LunaBorderFocusColor">#1C5FA8</Color>
+
+  <!-- Text -->
+  <Color x:Key="LunaTextPrimaryColor">#1A2A3A</Color>
+  <Color x:Key="LunaTextSecondaryColor">#4A6A8A</Color>
+  <Color x:Key="LunaTextDisabledColor">#9AB0C8</Color>
+  <Color x:Key="LunaTextOnPrimaryColor">#FFFFFF</Color>
+
+  <!-- Accent / highlight -->
+  <Color x:Key="LunaAccentColor">#D4E8F8</Color>
+  <Color x:Key="LunaHoverColor">#E2EEF8</Color>
+  <Color x:Key="LunaSelectedColor">#C0D8F0</Color>
+
+  <!-- Status -->
+  <Color x:Key="LunaSuccessColor">#4A8A5A</Color>
+  <Color x:Key="LunaWarningColor">#C88A20</Color>
+  <Color x:Key="LunaErrorColor">#B83030</Color>
+
+  <!-- Brushes -->
+  <SolidColorBrush x:Key="LunaPrimaryBrush" Color="{StaticResource LunaPrimaryColor}" />
+  <SolidColorBrush x:Key="LunaPrimaryLightBrush" Color="{StaticResource LunaPrimaryLightColor}" />
+  <SolidColorBrush x:Key="LunaPrimaryDarkBrush" Color="{StaticResource LunaPrimaryDarkColor}" />
+  <SolidColorBrush x:Key="LunaSecondaryBrush" Color="{StaticResource LunaSecondaryColor}" />
+  <SolidColorBrush x:Key="LunaBackgroundBrush" Color="{StaticResource LunaBackgroundColor}" />
+  <SolidColorBrush x:Key="LunaSurfaceBrush" Color="{StaticResource LunaSurfaceColor}" />
+  <SolidColorBrush x:Key="LunaSurfaceAltBrush" Color="{StaticResource LunaSurfaceAltColor}" />
+  <SolidColorBrush x:Key="LunaBorderBrush" Color="{StaticResource LunaBorderColor}" />
+  <SolidColorBrush x:Key="LunaBorderFocusBrush" Color="{StaticResource LunaBorderFocusColor}" />
+  <SolidColorBrush x:Key="LunaTextPrimaryBrush" Color="{StaticResource LunaTextPrimaryColor}" />
+  <SolidColorBrush x:Key="LunaTextSecondaryBrush" Color="{StaticResource LunaTextSecondaryColor}" />
+  <SolidColorBrush x:Key="LunaTextDisabledBrush" Color="{StaticResource LunaTextDisabledColor}" />
+  <SolidColorBrush x:Key="LunaTextOnPrimaryBrush" Color="{StaticResource LunaTextOnPrimaryColor}" />
+  <SolidColorBrush x:Key="LunaAccentBrush" Color="{StaticResource LunaAccentColor}" />
+  <SolidColorBrush x:Key="LunaHoverBrush" Color="{StaticResource LunaHoverColor}" />
+  <SolidColorBrush x:Key="LunaSelectedBrush" Color="{StaticResource LunaSelectedColor}" />
+  <SolidColorBrush x:Key="LunaSuccessBrush" Color="{StaticResource LunaSuccessColor}" />
+  <SolidColorBrush x:Key="LunaErrorBrush" Color="{StaticResource LunaErrorColor}" />
+
+  <!-- Radius -->
+  <CornerRadius x:Key="LunaRadius">4</CornerRadius>
+  <CornerRadius x:Key="LunaRadiusLarge">8</CornerRadius>
+  <CornerRadius x:Key="LunaRadiusSmall">2</CornerRadius>
+
+  <!-- Spacing tokens -->
+  <Thickness x:Key="LunaPaddingSmall">4</Thickness>
+  <Thickness x:Key="LunaPadding">8</Thickness>
+  <Thickness x:Key="LunaPaddingLarge">16</Thickness>
+
+  <!-- Fonts -->
+  <FontFamily x:Key="InterFont">avares://SwitchcraftKeys/Assets/Fonts#Nunito</FontFamily>
+  <FontFamily x:Key="TerminalFont">avares://SwitchcraftKeys/Assets/Fonts/ProFontWindowsNerdFontMono-Regular.ttf#ProFontWindows Nerd Font Mono</FontFamily>
+  <FontFamily x:Key="CondensedFont">avares://SwitchcraftKeys/Assets/Fonts/BarlowCondensed-Regular.ttf#Barlow Condensed</FontFamily>
+
+</ResourceDictionary>

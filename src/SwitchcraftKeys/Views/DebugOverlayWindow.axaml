@@ -1,0 +1,115 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:SwitchcraftKeys.ViewModels"
+        x:Class="SwitchcraftKeys.Views.DebugOverlayWindow"
+        x:DataType="vm:DebugOverlayViewModel"
+        Title="SwitchcraftKeys — Debug Overlay"
+        Icon="/Assets/icon.ico"
+        Width="480" Height="360"
+        MinWidth="320" MinHeight="240"
+        WindowStartupLocation="Manual"
+        Topmost="True"
+        CanResize="True"
+        ShowInTaskbar="False">
+
+  <DockPanel Margin="8">
+
+    <!-- Status bar -->
+    <Border DockPanel.Dock="Top"
+            Background="#1E3A5F"
+            CornerRadius="4"
+            Padding="8,6"
+            Margin="0,0,0,6">
+      <TextBlock Text="{Binding StatusText}"
+                 Foreground="White"
+                 FontFamily="Consolas,Courier New,monospace"
+                 FontSize="12"
+                 TextWrapping="NoWrap" />
+    </Border>
+
+    <!-- Device + Layout info grid -->
+    <Grid DockPanel.Dock="Top"
+          ColumnDefinitions="Auto,*"
+          RowDefinitions="Auto,Auto,Auto"
+          Margin="0,0,0,6">
+
+      <TextBlock Grid.Row="0" Grid.Column="0"
+                 Text="Device: "
+                 FontWeight="SemiBold"
+                 FontSize="11"
+                 VerticalAlignment="Center"
+                 Margin="0,0,6,2" />
+      <TextBlock Grid.Row="0" Grid.Column="1"
+                 Text="{Binding ActiveDeviceId}"
+                 FontFamily="Consolas,Courier New,monospace"
+                 FontSize="11"
+                 VerticalAlignment="Center"
+                 Margin="0,0,0,2" />
+
+      <TextBlock Grid.Row="1" Grid.Column="0"
+                 Text="Layout: "
+                 FontWeight="SemiBold"
+                 FontSize="11"
+                 VerticalAlignment="Center"
+                 Margin="0,0,6,2" />
+      <TextBlock Grid.Row="1" Grid.Column="1"
+                 Text="{Binding ActiveLayoutKlid}"
+                 FontFamily="Consolas,Courier New,monospace"
+                 FontSize="11"
+                 VerticalAlignment="Center"
+                 Margin="0,0,0,2" />
+
+      <TextBlock Grid.Row="2" Grid.Column="0"
+                 Text="Name: "
+                 FontWeight="SemiBold"
+                 FontSize="11"
+                 VerticalAlignment="Center"
+                 Margin="0,0,6,0" />
+      <TextBlock Grid.Row="2" Grid.Column="1"
+                 Text="{Binding ActiveLayoutName}"
+                 FontSize="11"
+                 VerticalAlignment="Center" />
+    </Grid>
+
+    <!-- Toolbar -->
+    <StackPanel DockPanel.Dock="Bottom"
+                Orientation="Horizontal"
+                HorizontalAlignment="Right"
+                Spacing="6"
+                Margin="0,6,0,0">
+      <TextBlock Text="{Binding InputEventCount, StringFormat='Events: {0}'}"
+                 FontSize="10"
+                 Foreground="#666"
+                 VerticalAlignment="Center"
+                 Margin="0,0,8,0" />
+      <Button Content="Clear"
+              Command="{Binding ClearLogCommand}"
+              FontSize="11"
+              Padding="8,3" />
+    </StackPanel>
+
+    <!-- Scrolling event log -->
+    <Border BorderThickness="1"
+            BorderBrush="#A8C4E0"
+            CornerRadius="3"
+            Background="#F8FBFF">
+      <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Auto">
+        <ItemsControl ItemsSource="{Binding EventLog}"
+                      Margin="4">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding}"
+                         FontFamily="Consolas,Courier New,monospace"
+                         FontSize="10"
+                         TextWrapping="NoWrap"
+                         Margin="0,1" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </ScrollViewer>
+    </Border>
+
+  </DockPanel>
+
+</Window>

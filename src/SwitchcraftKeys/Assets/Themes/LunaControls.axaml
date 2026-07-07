@@ -1,0 +1,104 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- =====================================================================
+       LUNA CONTROLS — ControlTheme overrides
+       Applied on top of FluentTheme base
+       ===================================================================== -->
+
+  <!-- Window background -->
+  <Style Selector="Window">
+    <Setter Property="Background" Value="{StaticResource LunaBackgroundBrush}" />
+    <Setter Property="FontFamily" Value="{StaticResource InterFont}" />
+  </Style>
+
+  <!-- Base text color -->
+  <Style Selector="TextBlock">
+    <Setter Property="Foreground" Value="{StaticResource LunaTextPrimaryBrush}" />
+    <Setter Property="FontFamily" Value="{StaticResource InterFont}" />
+  </Style>
+
+  <!-- Button — Luna royal blue gradient look -->
+  <Style Selector="Button">
+    <Setter Property="Background" Value="{StaticResource LunaPrimaryBrush}" />
+    <Setter Property="Foreground" Value="{StaticResource LunaTextOnPrimaryBrush}" />
+    <Setter Property="BorderBrush" Value="{StaticResource LunaPrimaryDarkBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="{StaticResource LunaRadius}" />
+    <Setter Property="Padding" Value="12,6" />
+    <Setter Property="Cursor" Value="Hand" />
+  </Style>
+  <Style Selector="Button:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource LunaPrimaryLightBrush}" />
+  </Style>
+  <Style Selector="Button:pressed /template/ ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource LunaPrimaryDarkBrush}" />
+  </Style>
+  <Style Selector="Button:disabled /template/ ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource LunaAccentBrush}" />
+    <Setter Property="Opacity" Value="0.5" />
+  </Style>
+
+  <!-- TextBox -->
+  <Style Selector="TextBox">
+    <Setter Property="Background" Value="{StaticResource LunaSurfaceBrush}" />
+    <Setter Property="Foreground" Value="{StaticResource LunaTextPrimaryBrush}" />
+    <Setter Property="BorderBrush" Value="{StaticResource LunaBorderBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="{StaticResource LunaRadius}" />
+    <Setter Property="Padding" Value="8,6" />
+  </Style>
+  <Style Selector="TextBox:focus">
+    <Setter Property="BorderBrush" Value="{StaticResource LunaBorderFocusBrush}" />
+  </Style>
+
+  <!-- ComboBox -->
+  <Style Selector="ComboBox">
+    <Setter Property="Background" Value="{StaticResource LunaSurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{StaticResource LunaBorderBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="{StaticResource LunaRadius}" />
+    <Setter Property="Padding" Value="8,6" />
+    <Setter Property="Foreground" Value="{StaticResource LunaTextPrimaryBrush}" />
+  </Style>
+  <Style Selector="ComboBox:pointerover">
+    <Setter Property="BorderBrush" Value="{StaticResource LunaBorderFocusBrush}" />
+  </Style>
+
+  <!-- ListBox -->
+  <Style Selector="ListBox">
+    <Setter Property="Background" Value="{StaticResource LunaSurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{StaticResource LunaBorderBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="{StaticResource LunaRadius}" />
+    <Setter Property="Padding" Value="4" />
+  </Style>
+  <Style Selector="ListBoxItem">
+    <Setter Property="CornerRadius" Value="{StaticResource LunaRadiusSmall}" />
+    <Setter Property="Padding" Value="8,6" />
+  </Style>
+  <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource LunaHoverBrush}" />
+  </Style>
+  <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource LunaSelectedBrush}" />
+  </Style>
+
+  <!-- Border card style class -->
+  <Style Selector="Border.card">
+    <Setter Property="Background" Value="{StaticResource LunaSurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{StaticResource LunaBorderBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="{StaticResource LunaRadius}" />
+    <Setter Property="Padding" Value="12" />
+    <Setter Property="BoxShadow" Value="0 1 4 0 #18000000" />
+  </Style>
+
+  <!-- Separator -->
+  <Style Selector="Separator">
+    <Setter Property="Background" Value="{StaticResource LunaBorderBrush}" />
+    <Setter Property="Height" Value="1" />
+    <Setter Property="Margin" Value="0,4" />
+  </Style>
+
+</Styles>

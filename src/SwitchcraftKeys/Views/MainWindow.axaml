@@ -1,0 +1,424 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:SwitchcraftKeys.ViewModels"
+        xmlns:log="using:SwitchcraftKeys.Logging"
+        x:Class="SwitchcraftKeys.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Title="{Binding Title}"
+        Icon="/Assets/icon.ico"
+        Width="1120" Height="730"
+        MinWidth="900" MinHeight="600"
+        WindowStartupLocation="CenterScreen">
+
+  <Window.Styles>
+    <Style Selector="Button.nav">
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="6" />
+      <Setter Property="Padding" Value="12,12" />
+      <Setter Property="Foreground" Value="#EAF4FF" />
+    </Style>
+    <Style Selector="Button.nav:focus /template/ ContentPresenter">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="Button.nav:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="#2BFFFFFF" />
+      <Setter Property="BorderBrush" Value="#55FFFFFF" />
+    </Style>
+    <Style Selector="Button.nav.active /template/ ContentPresenter">
+      <Setter Property="Background" Value="#55143F8E" />
+      <Setter Property="BorderBrush" Value="#88BFD7F4" />
+    </Style>
+    <Style Selector="Button.nav.active TextBlock.nav-title">
+      <Setter Property="Foreground" Value="#FFFFFF" />
+    </Style>
+    <Style Selector="Button.nav.active TextBlock.nav-subtitle">
+      <Setter Property="Foreground" Value="#D5E9FF" />
+    </Style>
+    <Style Selector="Border.panel">
+      <Setter Property="Background" Value="#FFFFFF" />
+      <Setter Property="BorderBrush" Value="#BFD4EF" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="BoxShadow" Value="0 4 18 0 #14000000" />
+    </Style>
+    <Style Selector="ListBox.keyboard-list">
+      <Setter Property="Background" Value="#008080" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Padding" Value="10" />
+    </Style>
+    <Style Selector="ListBoxItem">
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="Margin" Value="0,0,8,8" />
+      <Setter Property="CornerRadius" Value="3" />
+      <Setter Property="Width" Value="112" />
+    </Style>
+    <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="#1AFFFFFF" />
+    </Style>
+    <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="Border.keyboard-row">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="Border.desktop-icon-label">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Padding" Value="4,2" />
+      <Setter Property="CornerRadius" Value="2" />
+    </Style>
+    <Style Selector="TextBlock.desktop-icon-title">
+      <Setter Property="Foreground" Value="White" />
+      <Setter Property="TextAlignment" Value="Center" />
+      <Setter Property="FontSize" Value="12" />
+    </Style>
+    <Style Selector="ListBoxItem:selected Border.keyboard-row">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BoxShadow" Value="none" />
+    </Style>
+    <Style Selector="ListBoxItem:selected Border.desktop-icon-label">
+      <Setter Property="Background" Value="#0A46B3" />
+    </Style>
+    <Style Selector="ToggleButton.log-lock">
+      <Setter Property="Background" Value="#3A3A3A" />
+      <Setter Property="BorderBrush" Value="#555753" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="6" />
+      <Setter Property="Padding" Value="10,6" />
+    </Style>
+    <Style Selector="ToggleButton.log-lock:checked /template/ ContentPresenter">
+      <Setter Property="Background" Value="#4A8A5A" />
+      <Setter Property="BorderBrush" Value="#9DBB8F" />
+    </Style>
+    <Style Selector="ComboBox.xp-combo">
+      <Setter Property="Background" Value="#FFFFFF" />
+      <Setter Property="BorderBrush" Value="#7F9DB9" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="2" />
+      <Setter Property="MinHeight" Value="34" />
+      <Setter Property="Padding" Value="10,5" />
+    </Style>
+    <Style Selector="ComboBox.xp-combo:pointerover">
+      <Setter Property="BorderBrush" Value="#3A7CC8" />
+    </Style>
+  </Window.Styles>
+
+  <Grid ColumnDefinitions="260,*" Background="#EAF2FB">
+    <Border Grid.Column="0">
+      <Border.Background>
+        <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+          <GradientStop Color="#2B73D2" Offset="0" />
+          <GradientStop Color="#1C58B9" Offset="0.48" />
+          <GradientStop Color="#143F8E" Offset="1" />
+        </LinearGradientBrush>
+      </Border.Background>
+
+      <Grid RowDefinitions="Auto,*,Auto" Margin="20,28,20,18">
+        <StackPanel Spacing="12" HorizontalAlignment="Center">
+          <Image Source="avares://SwitchcraftKeys/Assets/Icons/keyboard-100.png"
+                 Width="78" Height="78"
+                 HorizontalAlignment="Center" />
+
+          <StackPanel Spacing="2" HorizontalAlignment="Center">
+            <TextBlock Text="SwitchcraftKeys" Foreground="White" FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" />
+            <TextBlock Text="Keyboard layouts by device" Foreground="#D5E9FF" FontSize="12" HorizontalAlignment="Center" />
+          </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Spacing="10" Margin="0,44,0,0">
+          <Button Classes="nav" Classes.active="{Binding IsDashboardSelected}" Focusable="False" Command="{Binding SelectSectionCommand}" CommandParameter="Dashboard">
+            <Grid ColumnDefinitions="46,*" ColumnSpacing="12">
+              <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-dashboard-48.png" Width="38" Height="38" />
+              <StackPanel Grid.Column="1" Spacing="1" VerticalAlignment="Center">
+                <TextBlock Classes="nav-title" Text="Dashboard" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF" />
+                <TextBlock Classes="nav-subtitle" Text="Detected keyboards" FontSize="12" Foreground="#BFD7F4" />
+              </StackPanel>
+            </Grid>
+          </Button>
+
+          <Button Classes="nav" Classes.active="{Binding IsLogsSelected}" Focusable="False" Command="{Binding SelectSectionCommand}" CommandParameter="Logs">
+            <Grid ColumnDefinitions="46,*" ColumnSpacing="12">
+              <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-console-48.png" Width="38" Height="38" />
+              <StackPanel Grid.Column="1" Spacing="1" VerticalAlignment="Center">
+                <TextBlock Classes="nav-title" Text="Logs" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF" />
+                <TextBlock Classes="nav-subtitle" Text="Live terminal" FontSize="12" Foreground="#BFD7F4" />
+              </StackPanel>
+            </Grid>
+          </Button>
+
+          <Button Classes="nav" Classes.active="{Binding IsSettingsSelected}" Focusable="False" Command="{Binding SelectSectionCommand}" CommandParameter="Settings">
+            <Grid ColumnDefinitions="46,*" ColumnSpacing="12">
+              <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-settings-48.png" Width="38" Height="38" />
+              <StackPanel Grid.Column="1" Spacing="1" VerticalAlignment="Center">
+                <TextBlock Classes="nav-title" Text="Settings" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF" />
+                <TextBlock Classes="nav-subtitle" Text="Startup, tray, logs" FontSize="12" Foreground="#BFD7F4" />
+              </StackPanel>
+            </Grid>
+          </Button>
+
+          <Button Classes="nav" Classes.active="{Binding IsAboutSelected}" Focusable="False" Command="{Binding SelectSectionCommand}" CommandParameter="About">
+            <Grid ColumnDefinitions="46,*" ColumnSpacing="12">
+              <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-about-48.png" Width="38" Height="38" />
+              <StackPanel Grid.Column="1" Spacing="1" VerticalAlignment="Center">
+                <TextBlock Classes="nav-title" Text="About" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF" />
+                <TextBlock Classes="nav-subtitle" Text="Version and credits" FontSize="12" Foreground="#BFD7F4" />
+              </StackPanel>
+            </Grid>
+          </Button>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" HorizontalAlignment="Left">
+          <TextBlock Text="Version 0.1.0" Foreground="#C8DFFF" FontSize="14" FontFamily="{StaticResource CondensedFont}" />
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <Grid Grid.Column="1" RowDefinitions="Auto,*" Margin="30,26,30,20">
+      <Grid ColumnDefinitions="*" ColumnSpacing="18">
+        <StackPanel Spacing="5">
+          <TextBlock Text="{Binding SelectedSection}" FontSize="30" FontWeight="Bold" Foreground="#17365E" />
+          <TextBlock Text="Detected keyboards stay listed so you can assign a stable layout per device."
+                     FontSize="13" Foreground="#617A97" />
+        </StackPanel>
+      </Grid>
+
+      <Grid Grid.Row="1" Margin="0,24,0,0">
+        <Grid RowDefinitions="Auto,*" RowSpacing="18" IsVisible="{Binding IsDashboardSelected}">
+          <Border Classes="panel" Padding="18">
+            <Grid RowDefinitions="Auto,*" RowSpacing="14">
+              <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Spacing="3">
+                  <TextBlock Text="Keyboards" FontSize="20" FontWeight="Bold" Foreground="#17365E" />
+                  <TextBlock Text="Type on a keyboard to discover it. Devices are never removed automatically."
+                             FontSize="12" Foreground="#6B829B" />
+                </StackPanel>
+                <Border Grid.Column="1" Background="#EDF7FF" BorderBrush="#C5DDF4" BorderThickness="1" CornerRadius="8" Padding="10,6" VerticalAlignment="Top">
+                  <Grid ColumnDefinitions="22,*" ColumnSpacing="8" VerticalAlignment="Center">
+                    <Grid Width="18" Height="18" VerticalAlignment="Center">
+                      <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-laptop-32.png" Width="18" Height="18" IsVisible="{Binding CurrentDeviceIsBuiltin}" />
+                      <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-bluetooth-32.png" Width="18" Height="18" IsVisible="{Binding CurrentDeviceIsBluetooth}" />
+                      <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-usb-32.png" Width="18" Height="18" IsVisible="{Binding CurrentDeviceIsUsb}" />
+                    </Grid>
+                    <TextBlock Grid.Column="1" Text="{Binding CurrentDeviceDisplayName, FallbackValue='No device active'}" Foreground="#285F9E" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" />
+                  </Grid>
+                </Border>
+              </Grid>
+
+              <ListBox Grid.Row="1"
+                       Classes="keyboard-list"
+                       ItemsSource="{Binding Keyboards}"
+                       SelectedItem="{Binding SelectedKeyboard, Mode=TwoWay}"
+                        Height="205"
+                       ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <ListBox.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <WrapPanel />
+                  </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                  <DataTemplate x:DataType="vm:KeyboardDeviceViewModel">
+                    <Border Classes="keyboard-row" CornerRadius="3" Padding="6" BorderThickness="1" MinHeight="86">
+                      <StackPanel Spacing="5" HorizontalAlignment="Center">
+                        <Grid Width="38" Height="38" HorizontalAlignment="Center">
+                          <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-laptop-32.png" Width="34" Height="34" HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding IsBuiltin}" />
+                          <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-bluetooth-32.png" Width="34" Height="34" HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding IsBluetooth}" />
+                          <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-usb-32.png" Width="34" Height="34" HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding IsUsb}" />
+                        </Grid>
+                        <Border Classes="desktop-icon-label" HorizontalAlignment="Stretch">
+                          <TextBlock Classes="desktop-icon-title" Text="{Binding DisplayName}" TextWrapping="Wrap" MaxLines="2" />
+                        </Border>
+                      </StackPanel>
+                    </Border>
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+              </ListBox>
+            </Grid>
+          </Border>
+
+          <Border Grid.Row="1" Classes="panel" Padding="18" Height="235">
+            <Grid>
+              <Grid IsVisible="{Binding HasSelectedKeyboard}" ColumnDefinitions="*,*" ColumnSpacing="22">
+                <StackPanel Spacing="7">
+                  <TextBlock Text="Selected keyboard" FontSize="20" FontWeight="Bold" Foreground="#17365E" />
+                  <TextBlock Text="Adjust friendly name and layout mapping."
+                             TextWrapping="Wrap" Foreground="#6B829B" />
+                  <TextBlock Text="Device ID" Margin="0,10,0,0" FontWeight="SemiBold" Foreground="#44617E" />
+                  <TextBlock Text="{Binding SelectedKeyboard.DeviceId, TargetNullValue='Select a keyboard', FallbackValue='Select a keyboard'}" TextWrapping="Wrap" Foreground="#285F9E" />
+                </StackPanel>
+
+                <Grid Grid.Column="1" RowDefinitions="Auto,Auto,*" RowSpacing="8">
+                  <StackPanel Spacing="4">
+                    <TextBlock Text="Name" FontWeight="SemiBold" Foreground="#44617E" />
+                    <TextBox Text="{Binding SelectedKeyboardAlias, Mode=TwoWay}" PlaceholderText="Friendly name" />
+                  </StackPanel>
+                  <Grid Grid.Row="1" ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <StackPanel Spacing="4">
+                      <TextBlock Text="Language" FontWeight="SemiBold" Foreground="#44617E" />
+                      <TextBox PlaceholderText="Example: en-US, pt-BR (placeholder)" IsEnabled="False" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Spacing="4">
+                      <TextBlock Text="Layout KLID" FontWeight="SemiBold" Foreground="#44617E" />
+                      <TextBox Text="{Binding SelectedKeyboardLayoutKlid, Mode=TwoWay}" PlaceholderText="Example: 00000409" />
+                    </StackPanel>
+                  </Grid>
+                  <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,8,0,0">
+                    <Button Command="{Binding DiscardSelectedKeyboardCommand}" Background="#FFFFFF" BorderBrush="#BFD4EF" BorderThickness="1" CornerRadius="8" Padding="12,7">
+                      <TextBlock Text="Discard" Foreground="#285F9E" FontWeight="SemiBold" />
+                    </Button>
+                    <Button Command="{Binding SaveSelectedKeyboardCommand}" Background="{StaticResource LunaSuccessBrush}" BorderBrush="#2F6C3F" BorderThickness="1" CornerRadius="8" Padding="12,7">
+                      <StackPanel Orientation="Horizontal" Spacing="6">
+                        <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-save-32.png" Width="18" Height="18" />
+                        <TextBlock Text="Save keyboard" Foreground="White" FontWeight="SemiBold" />
+                      </StackPanel>
+                    </Button>
+                  </StackPanel>
+                </Grid>
+              </Grid>
+
+              <Grid IsVisible="{Binding HasNoSelectedKeyboard}" ColumnDefinitions="72,*" ColumnSpacing="18" VerticalAlignment="Center">
+                <Image Source="avares://SwitchcraftKeys/Assets/Icons/keyboard-100.png" Width="64" Height="64" VerticalAlignment="Center" />
+                <StackPanel Grid.Column="1" Spacing="6" VerticalAlignment="Center">
+                  <TextBlock Text="Select a keyboard" FontSize="20" FontWeight="Bold" Foreground="#17365E" />
+                  <TextBlock Text="Click one keyboard above to edit its alias, language, and layout mapping." TextWrapping="Wrap" Foreground="#6B829B" />
+                </StackPanel>
+              </Grid>
+            </Grid>
+          </Border>
+        </Grid>
+
+        <Border Classes="panel" Padding="0" IsVisible="{Binding IsLogsSelected}" Background="#1E1E1E" BorderBrush="#3C3C3C" CornerRadius="10" ClipToBounds="True">
+          <Grid RowDefinitions="Auto,*">
+            <Border Background="#2E3436" BorderBrush="#555753" BorderThickness="0,0,0,1" CornerRadius="10,10,0,0" Padding="14,10">
+              <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                <StackPanel Spacing="2">
+                  <TextBlock Text="Application Log" Foreground="#EEEEEC" FontWeight="Bold" FontSize="16" />
+                  <TextBlock Text="Live in-memory stream. Tango-style terminal colors." Foreground="#BABDB6" FontSize="12" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                  <Button Command="{Binding ClearLogsCommand}" Background="#3A3A3A" BorderBrush="#555753" BorderThickness="1" CornerRadius="8" Padding="10,6">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                      <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-broom-32.png" Width="18" Height="18" />
+                      <TextBlock Text="Clear" Foreground="#EEEEEC" />
+                    </StackPanel>
+                  </Button>
+                  <Button Command="{Binding CopyAllLogsCommand}" Background="#3A3A3A" BorderBrush="#555753" BorderThickness="1" CornerRadius="8" Padding="10,6">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                      <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-copy-32.png" Width="18" Height="18" />
+                      <TextBlock Text="Copy all" Foreground="#EEEEEC" />
+                    </StackPanel>
+                  </Button>
+                  <ToggleButton Classes="log-lock" IsChecked="{Binding IsLogScrollLocked, Mode=TwoWay}">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                      <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-unlock-32.png" Width="18" Height="18" IsVisible="{Binding IsLogScrollUnlocked}" />
+                      <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-lock-32.png" Width="18" Height="18" IsVisible="{Binding IsLogScrollLocked}" />
+                      <TextBlock Text="Lock scroll" Foreground="#EEEEEC" />
+                    </StackPanel>
+                  </ToggleButton>
+                </StackPanel>
+              </Grid>
+            </Border>
+
+            <ScrollViewer x:Name="LogsScrollViewer" Grid.Row="1" Background="#1E1E1E" Padding="18,18,18,30">
+              <ItemsControl ItemsSource="{Binding LogEntries}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="log:LogEntry">
+                    <TextBlock Text="{Binding Text}"
+                               Foreground="{Binding Foreground}"
+                               FontFamily="avares://SwitchcraftKeys/Assets/Fonts/ProFontWindowsNerdFontMono-Regular.ttf#ProFontWindows Nerd Font Mono"
+                               FontSize="15"
+                               LineHeight="21"
+                               TextWrapping="NoWrap" />
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </ScrollViewer>
+          </Grid>
+        </Border>
+
+        <Border Classes="panel" Padding="22" IsVisible="{Binding IsSettingsSelected}">
+          <Grid RowDefinitions="Auto,Auto,*" RowSpacing="22">
+            <StackPanel Spacing="5">
+              <TextBlock Text="Settings" FontSize="24" FontWeight="Bold" Foreground="#17365E" />
+              <TextBlock Text="Configure runtime behavior. Changes are explicit: save or discard." Foreground="#6B829B" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Background="#F4F9FF" BorderBrush="#C7DBF1" BorderThickness="1" CornerRadius="14" Padding="18">
+              <Grid ColumnDefinitions="Auto,*" ColumnSpacing="22">
+                <StackPanel Spacing="5">
+                  <TextBlock Text="Minimum log level" FontSize="18" FontWeight="Bold" Foreground="#17365E" />
+                  <TextBlock Text="Controls console, file, and in-app log verbosity for the current run and future launches."
+                             TextWrapping="Wrap" Foreground="#526F8D" />
+                </StackPanel>
+                <ComboBox Grid.Column="1"
+                          Classes="xp-combo"
+                          ItemsSource="{Binding LogLevels}"
+                          SelectedItem="{Binding SelectedLogLevel, Mode=TwoWay}"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Center" />
+              </Grid>
+            </Border>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="10" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+              <Button Command="{Binding DiscardSettingsCommand}" Background="#FFFFFF" BorderBrush="#BFD4EF" BorderThickness="1" CornerRadius="8" Padding="14,8">
+                <TextBlock Text="Discard" Foreground="#285F9E" FontWeight="SemiBold" />
+              </Button>
+              <Button Command="{Binding SaveSettingsCommand}" Background="{StaticResource LunaSuccessBrush}" BorderBrush="#2F6C3F" BorderThickness="1" CornerRadius="8" Padding="14,8">
+                <TextBlock Text="Save settings" Foreground="White" FontWeight="SemiBold" />
+              </Button>
+            </StackPanel>
+          </Grid>
+        </Border>
+
+        <Border Classes="panel" Padding="26" IsVisible="{Binding IsAboutSelected}">
+          <Grid RowDefinitions="Auto,Auto,*" RowSpacing="24">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="20">
+              <Image Source="avares://SwitchcraftKeys/Assets/Icons/keyboard-100.png" Width="82" Height="82" />
+              <StackPanel Grid.Column="1" Spacing="4" VerticalAlignment="Center">
+                <TextBlock Text="SwitchcraftKeys" FontSize="30" FontWeight="Bold" Foreground="#17365E" />
+                <TextBlock Text="Device-aware keyboard layout manager for Windows" FontSize="14" Foreground="#617A97" />
+              </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1" ColumnDefinitions="*,*,*" ColumnSpacing="14">
+              <Border Background="#F4F9FF" BorderBrush="#C7DBF1" BorderThickness="1" CornerRadius="14" Padding="16">
+                <StackPanel Spacing="4">
+                  <TextBlock Text="Version" FontFamily="{StaticResource CondensedFont}" FontSize="16" Foreground="#6B829B" />
+                  <TextBlock Text="0.1.0" FontSize="24" FontWeight="Bold" Foreground="#17365E" />
+                </StackPanel>
+              </Border>
+              <Border Grid.Column="1" Background="#F4F9FF" BorderBrush="#C7DBF1" BorderThickness="1" CornerRadius="14" Padding="16">
+                <StackPanel Spacing="4">
+                  <TextBlock Text="Author" FontFamily="{StaticResource CondensedFont}" FontSize="16" Foreground="#6B829B" />
+                  <TextBlock Text="Marcelo Frau" FontSize="22" FontWeight="Bold" Foreground="#17365E" />
+                </StackPanel>
+              </Border>
+              <Border Grid.Column="2" Background="#F4F9FF" BorderBrush="#C7DBF1" BorderThickness="1" CornerRadius="14" Padding="16">
+                <StackPanel Spacing="4">
+                  <TextBlock Text="Mode" FontFamily="{StaticResource CondensedFont}" FontSize="16" Foreground="#6B829B" />
+                  <TextBlock Text="Tray-first utility" FontSize="22" FontWeight="Bold" Foreground="#17365E" />
+                </StackPanel>
+              </Border>
+            </Grid>
+
+            <Border Grid.Row="2" Background="#FFFFFF" BorderBrush="#D6E5F5" BorderThickness="1" CornerRadius="14" Padding="18">
+              <StackPanel Spacing="10">
+                <TextBlock Text="What it does" FontSize="20" FontWeight="Bold" Foreground="#17365E" />
+                <TextBlock Text="SwitchcraftKeys listens to Windows Raw Input, identifies which physical keyboard produced a keystroke, and switches to the keyboard layout assigned to that device. Built for mixed keyboard setups: built-in laptop keyboards, USB boards, Bluetooth keyboards, and layout-heavy workflows."
+                           TextWrapping="Wrap" Foreground="#526F8D" />
+                <TextBlock Text="Credits" FontSize="18" FontWeight="Bold" Foreground="#17365E" Margin="0,10,0,0" />
+                <TextBlock Text="Icons by Icons8. UI font: Nunito. Condensed metadata font: Barlow Condensed. Terminal font: ProFont Windows Nerd Font Mono."
+                           TextWrapping="Wrap" Foreground="#526F8D" />
+              </StackPanel>
+            </Border>
+          </Grid>
+        </Border>
+      </Grid>
+
+    </Grid>
+  </Grid>
+</Window>

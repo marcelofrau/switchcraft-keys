@@ -1,0 +1,63 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AssemblyName>SwitchcraftKeys</AssemblyName>
+    <RootNamespace>SwitchcraftKeys</RootNamespace>
+    <Version>0.1.0</Version>
+    <Authors>Marcelo Frau</Authors>
+    <Company>Marcelo Frau</Company>
+    <Copyright>Copyright © 2026 Marcelo Frau</Copyright>
+    <Description>Device-aware keyboard layout manager for Windows</Description>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <!-- Single-file publish -->
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>false</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <!-- No console window -->
+    <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
+    <!-- InformationalVersion with git commit SHA (injected at build time) -->
+    <InformationalVersion>$(Version)+$(GitCommitShort)</InformationalVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="12.0.5" />
+    <PackageReference Include="Avalonia.Desktop" Version="12.0.5" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="12.0.5" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="12.0.5" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="12.0.1" />
+    <PackageReference Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.3" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
+    <PackageReference Include="Serilog" Version="4.2.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.1" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="App.axaml.cs">
+      <DependentUpon>App.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <!-- Target: Capture git commit SHA (short form) for versioning -->
+  <Target Name="GetGitCommitShort" BeforeTargets="Build">
+    <Exec Command="git rev-parse --short HEAD" ConsoleToMSBuild="true" EchoOff="true" StandardOutputImportance="Low" IgnoreExitCode="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="GitCommitShort" />
+    </Exec>
+    <!-- Fallback if git is not available or repo is not initialized -->
+    <PropertyGroup>
+      <GitCommitShort Condition="'$(GitCommitShort)' == ''">unknown</GitCommitShort>
+    </PropertyGroup>
+  </Target>
+
+</Project>

@@ -1,0 +1,45 @@
+## Build outputs
+bin/
+obj/
+dist/
+TestResults/
+
+## NuGet
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+
+## Visual Studio
+.vs/
+*.user
+*.suo
+*.userprefs
+*.userosscache
+*.sln.docstates
+*.sln.ide/
+
+## Rider / JetBrains
+.idea/
+*.DotSettings.user
+
+## VS Code
+.vscode/
+*.code-workspace
+
+## OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+## Logs
+*.log
+logs/
+
+## Coverage
+coverage/
+*.coverage
+*.coveragexml
+
+## Single-file publish artifacts
+*.pdb

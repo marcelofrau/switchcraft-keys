@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="SwitchcraftKeys.Tests/SwitchcraftKeys.Tests.csproj" />
+  <Project Path="SwitchcraftKeys/SwitchcraftKeys.csproj" />
+</Solution>
