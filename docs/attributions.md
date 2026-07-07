@@ -6,6 +6,18 @@ description: Third-party icons, fonts, and licenses
 
 # Attributions
 
+## Project Author
+
+**SwitchcraftKeys** was created and is maintained by **Marcelo Frau**.
+
+- Website: [marcelofrau.com](https://marcelofrau.com)
+- GitHub: [github.com/marcelofrau](https://github.com/marcelofrau)
+- Email: marcelofrau@gmail.com
+
+Licensed under [MIT License](https://github.com/marcelofrau/switchcraft-keys/blob/main/LICENSE).
+
+---
+
 All third-party icons and images used in this project are listed here with their source, license, and attribution requirement.
 
 ## Icons8

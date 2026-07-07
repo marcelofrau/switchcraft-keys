@@ -92,6 +92,7 @@
       <div class="sidebar-section">
         <div class="sidebar-heading">Other</div>
         <ul class="sidebar-links">
+          <li><a href="{{ '/about' | relative_url }}" {% if page.url contains 'about' %}class="active"{% endif %}>About</a></li>
           <li><a href="{{ '/attributions' | relative_url }}" {% if page.url contains 'attributions' %}class="active"{% endif %}>Attributions</a></li>
           <li><a href="{{ '/changelog' | relative_url }}" {% if page.url contains 'changelog' %}class="active"{% endif %}>Changelog</a></li>
         </ul>
