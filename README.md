@@ -43,14 +43,33 @@ SwitchcraftKeys uses the Windows Raw Input API to detect which physical keyboard
 See [`build/README.md`](build/README.md) for full instructions.
 
 ```powershell
-# Quick build
+# Debug build
+.\build\build.ps1
+
+# Release build
 .\build\build.ps1 -Config Release
 
-# Publish single .exe to dist/
-.\build\publish.ps1
+# Release + portable zip
+.\build\build.ps1 -Config Release -Release
+
+# Release + portable zip + Windows installer (NSIS)
+.\build\build.ps1 -Config Release -Release -Installer
 
 # Run tests
 .\build\test.ps1
+
+# Health check
+.\build\check.ps1
+```
+
+## CLI
+
+```bash
+SwitchcraftKeys --help              # Show help
+SwitchcraftKeys --version           # Show version
+SwitchcraftKeys --check             # Run health check
+SwitchcraftKeys --reset-cache       # Clear device layout cache
+SwitchcraftKeys --reset-data        # Reset all app data (config, cache, logs)
 ```
 
 ## Project Structure
