@@ -8,7 +8,7 @@ namespace SwitchcraftKeys.Tests.Services;
 public sealed class LayoutServiceTests
 {
     [Fact]
-    public void GetAvailableLayouts_ReturnsRegistryLayoutsWithLoadedHandles()
+    public void GetAvailableLayouts_ReturnsOnlyLoadedLayouts()
     {
         var sut = CreateService(
             readLayouts: () => new Dictionary<string, string>
@@ -20,9 +20,26 @@ public sealed class LayoutServiceTests
 
         var layouts = sut.GetAvailableLayouts();
 
-        layouts.Should().HaveCount(2);
+        layouts.Should().HaveCount(1);
         layouts.Should().Contain(layout => layout.Klid == "00000409" && layout.Hkl == new IntPtr(0x00000409));
-        layouts.Should().Contain(layout => layout.Klid == "00000416" && layout.Hkl == IntPtr.Zero);
+        layouts.Should().NotContain(layout => layout.Klid == "00000416");
+    }
+
+    [Fact]
+    public void GetAvailableLayouts_WhenLoadedHklHasVariantId_UsesBaseKlidDisplayName()
+    {
+        var sut = CreateService(
+            readLayouts: () => new Dictionary<string, string>
+            {
+                ["00000C0A"] = "Spanish",
+            },
+            getAllLayoutHandles: () => [new IntPtr(0x040A0C0A)]);
+
+        var layouts = sut.GetAvailableLayouts();
+
+        layouts.Should().ContainSingle();
+        layouts[0].DisplayName.Should().Be("Spanish");
+        layouts[0].Klid.Should().Be("040A0C0A");
     }
 
     [Fact]

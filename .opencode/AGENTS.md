@@ -209,6 +209,7 @@ _logger.LogInformation("Layout switched klid={Klid} elapsedMs={ElapsedMs}", klid
 - **Assets**: `docs/ASSETS-GUIDE.md` · naming, sizes, AXAML refs · `docs/ATTRIBUTIONS.md`
 - **Phase breakdown**: `docs/IMPLEMENTATION_PLAN.md` § Phase Checklist
 - **Prior art**: `../archive/` · three prior implementations (Rust, Python)
+- **Local Avalonia refs**: `D:\workspace\_non_work_\xb-homebrew-vault` and `D:\workspace\_non_work_\openburningsuite` · use for site/docs organization, Avalonia UI patterns, and release/CI reference when available
 - **Avalonia**: https://docs.avaloniaui.net/ · compiled bindings, DataTemplate, Transitions
 - **MVVM**: https://learn.microsoft.com/en-us/windows/communitytoolkit/mvvm/
 

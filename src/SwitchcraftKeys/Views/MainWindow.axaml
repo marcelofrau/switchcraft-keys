@@ -215,14 +215,20 @@
                   <TextBlock Text="Type on a keyboard to discover it. Devices are never removed automatically."
                              FontSize="12" Foreground="#6B829B" />
                 </StackPanel>
-                <Border Grid.Column="1" Background="#EDF7FF" BorderBrush="#C5DDF4" BorderThickness="1" CornerRadius="8" Padding="10,6" VerticalAlignment="Top">
-                  <Grid ColumnDefinitions="22,*" ColumnSpacing="8" VerticalAlignment="Center">
-                    <Grid Width="18" Height="18" VerticalAlignment="Center">
-                      <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-laptop-32.png" Width="18" Height="18" IsVisible="{Binding CurrentDeviceIsBuiltin}" />
-                      <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-bluetooth-32.png" Width="18" Height="18" IsVisible="{Binding CurrentDeviceIsBluetooth}" />
-                      <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-usb-32.png" Width="18" Height="18" IsVisible="{Binding CurrentDeviceIsUsb}" />
-                    </Grid>
-                    <TextBlock Grid.Column="1" Text="{Binding CurrentDeviceDisplayName, FallbackValue='No device active'}" Foreground="#285F9E" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" />
+                <Border Grid.Column="1" Background="#EAF8ED" BorderBrush="#7DBA87" BorderThickness="1" CornerRadius="10" Padding="12,8" VerticalAlignment="Top">
+                  <Grid ColumnDefinitions="34,*" ColumnSpacing="10" VerticalAlignment="Center">
+                    <Border Width="32" Height="32" Background="#FFFFFF" BorderBrush="#BBD9B0" BorderThickness="1" CornerRadius="8" VerticalAlignment="Center">
+                      <Grid Width="24" Height="24" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-laptop-32.png" Width="24" Height="24" IsVisible="{Binding CurrentDeviceIsBuiltin}" />
+                        <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-bluetooth-32.png" Width="24" Height="24" IsVisible="{Binding CurrentDeviceIsBluetooth}" />
+                        <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-usb-32.png" Width="24" Height="24" IsVisible="{Binding CurrentDeviceIsUsb}" />
+                      </Grid>
+                    </Border>
+                    <StackPanel Grid.Column="1" Spacing="1" VerticalAlignment="Center" MinWidth="190">
+                      <TextBlock Text="Active" Foreground="#3C7B49" FontFamily="{StaticResource CondensedFont}" FontSize="13" FontWeight="Bold" />
+                      <TextBlock Text="{Binding CurrentDeviceDisplayName, FallbackValue='No device active'}" Foreground="#17365E" FontSize="14" FontWeight="Bold" />
+                      <TextBlock Text="{Binding CurrentLayout, StringFormat='Layout: {0}', FallbackValue='Layout: No layout active'}" Foreground="#4F7358" FontSize="11" />
+                    </StackPanel>
                   </Grid>
                 </Border>
               </Grid>
@@ -267,6 +273,9 @@
                              TextWrapping="Wrap" Foreground="#6B829B" />
                   <TextBlock Text="Device ID" Margin="0,10,0,0" FontWeight="SemiBold" Foreground="#44617E" />
                   <TextBlock Text="{Binding SelectedKeyboard.DeviceId, TargetNullValue='Select a keyboard', FallbackValue='Select a keyboard'}" TextWrapping="Wrap" Foreground="#285F9E" />
+                  <Border Background="#EAF8ED" BorderBrush="#BBD9B0" BorderThickness="1" CornerRadius="8" Padding="10,6" Margin="0,12,0,0" IsVisible="{Binding HasSelectedKeyboardStatusMessage}">
+                    <TextBlock Text="{Binding SelectedKeyboardStatusMessage}" Foreground="#276536" FontSize="12" FontWeight="SemiBold" />
+                  </Border>
                 </StackPanel>
 
                 <Grid Grid.Column="1" RowDefinitions="Auto,Auto,*" RowSpacing="8">
@@ -277,11 +286,18 @@
                   <Grid Grid.Row="1" ColumnDefinitions="*,*" ColumnSpacing="12">
                     <StackPanel Spacing="4">
                       <TextBlock Text="Language" FontWeight="SemiBold" Foreground="#44617E" />
-                      <TextBox PlaceholderText="Example: en-US, pt-BR (placeholder)" IsEnabled="False" />
+                      <ComboBox Classes="xp-combo"
+                                ItemsSource="{Binding AvailableLanguages}"
+                                SelectedItem="{Binding SelectedKeyboardLanguage, Mode=TwoWay}"
+                                HorizontalAlignment="Stretch" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Spacing="4">
-                      <TextBlock Text="Layout KLID" FontWeight="SemiBold" Foreground="#44617E" />
-                      <TextBox Text="{Binding SelectedKeyboardLayoutKlid, Mode=TwoWay}" PlaceholderText="Example: 00000409" />
+                      <TextBlock Text="Layout" FontWeight="SemiBold" Foreground="#44617E" />
+                      <ComboBox Classes="xp-combo"
+                                ItemsSource="{Binding FilteredLayouts}"
+                                SelectedItem="{Binding SelectedKeyboardLayout, Mode=TwoWay}"
+                                PlaceholderText="Select layout"
+                                HorizontalAlignment="Stretch" />
                     </StackPanel>
                   </Grid>
                   <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,8,0,0">
@@ -423,6 +439,26 @@
                         <TextBlock Text="Open Windows" Foreground="#285F9E" FontWeight="SemiBold" />
                       </StackPanel>
                     </Button>
+                  </Grid>
+                </Border>
+
+                <Border Classes="setting-card" BorderBrush="#E4B36A" Background="#FFF8EA">
+                  <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="16">
+                    <Image Source="avares://SwitchcraftKeys/Assets/Views/MainWindow/MainWindow-settings-32.png" Width="32" Height="32" VerticalAlignment="Top" />
+                    <StackPanel Grid.Column="1" Spacing="5">
+                      <TextBlock Text="Windows input method scope" FontSize="18" FontWeight="Bold" Foreground="#7A4D00" />
+                      <TextBlock Text="SwitchcraftKeys works best when Windows shares the input method across app windows. This writes HKCU\Control Panel\International\User Profile\EnablePerProcessInputMethod=0. No language list is modified."
+                                 TextWrapping="Wrap" Foreground="#6F5A33" />
+                      <TextBlock Text="{Binding WindowsInputMethodStatus}" TextWrapping="Wrap" Foreground="#7A4D00" FontSize="12" FontWeight="SemiBold" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                      <Button Classes="setting-action" Command="{Binding DisablePerAppInputMethodCommand}">
+                        <TextBlock Text="Use shared" Foreground="#285F9E" FontWeight="SemiBold" />
+                      </Button>
+                      <Button Classes="setting-action" Command="{Binding EnablePerAppInputMethodCommand}">
+                        <TextBlock Text="Use per-app" Foreground="#285F9E" FontWeight="SemiBold" />
+                      </Button>
+                    </StackPanel>
                   </Grid>
                 </Border>
 

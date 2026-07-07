@@ -1,0 +1,53 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="SwitchcraftKeys.Views.AppToastWindow"
+        Width="280" Height="82"
+        WindowStartupLocation="Manual"
+        WindowDecorations="None"
+        CanResize="False"
+        Topmost="True"
+        ShowInTaskbar="False"
+        Background="#1C58B9">
+
+  <Border x:Name="RootBorder"
+          Background="#1C58B9"
+          BorderBrush="#BFD7F4"
+          BorderThickness="1"
+          CornerRadius="0"
+          Padding="12"
+          BoxShadow="0 8 24 0 #33000000">
+    <Grid ColumnDefinitions="42,*" ColumnSpacing="10">
+      <Border Width="38" Height="38"
+              Background="#FFFFFF"
+              BorderBrush="#BFD7F4"
+              BorderThickness="1"
+              CornerRadius="0"
+              VerticalAlignment="Center">
+        <Image Source="avares://SwitchcraftKeys/Assets/Icons/keyboard-32.png"
+               Width="27" Height="27"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center" />
+      </Border>
+
+      <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
+        <TextBlock Text="Active keyboard"
+                   x:Name="TitleText"
+                   Foreground="#D5E9FF"
+                   FontFamily="{StaticResource CondensedFont}"
+                   FontSize="13"
+                   FontWeight="Bold" />
+        <TextBlock x:Name="MessageText"
+                   Foreground="#FFFFFF"
+                   FontSize="15"
+                   FontWeight="Bold"
+                   MaxWidth="205"
+                   TextTrimming="CharacterEllipsis" />
+        <TextBlock x:Name="DetailText"
+                   Foreground="#D5E9FF"
+                   FontSize="11"
+                   MaxWidth="205"
+                   TextTrimming="CharacterEllipsis" />
+      </StackPanel>
+    </Grid>
+  </Border>
+</Window>

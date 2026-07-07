@@ -64,6 +64,16 @@ internal static class KeyboardLayoutApi
     [DllImport("user32.dll", SetLastError = true)]
     public static extern IntPtr ActivateKeyboardLayout(IntPtr hkl, uint Flags);
 
+    [DllImport("user32.dll")]
+    public static extern IntPtr GetForegroundWindow();
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+
     // -------------------------------------------------------------------------
     // UnloadKeyboardLayout
     // -------------------------------------------------------------------------
@@ -106,4 +116,10 @@ internal static class KeyboardLayoutApi
         uint raw = (uint)(hkl.ToInt64() & 0xFFFFFFFF);
         return raw.ToString("X8");
     }
+
+    public static uint GetWindowThreadId(IntPtr hWnd)
+        => hWnd == IntPtr.Zero ? 0 : GetWindowThreadProcessId(hWnd, out _);
+
+    public static bool RequestInputLanguageChange(IntPtr hWnd, IntPtr hkl)
+        => hWnd != IntPtr.Zero && PostMessage(hWnd, NativeConstants.WM_INPUTLANGCHANGEREQUEST, IntPtr.Zero, hkl);
 }

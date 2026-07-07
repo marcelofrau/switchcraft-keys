@@ -10,6 +10,8 @@ namespace SwitchcraftKeys.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
+    private const string AllLanguages = "All languages";
+
     private readonly ILogger<MainViewModel> _logger;
     private readonly IConfigService _configService;
     private readonly IDeviceService _deviceService;
@@ -17,6 +19,7 @@ public partial class MainViewModel : ObservableObject
     private readonly IApplicationControlService _applicationControlService;
     private readonly ApplicationLogService _applicationLogService;
     private readonly Action<LogLevel>? _updateMinimumLogLevel;
+    private bool _isLoadingSelectedKeyboardFields;
 
     [ObservableProperty]
     private string _title = "SwitchcraftKeys";
@@ -40,6 +43,18 @@ public partial class MainViewModel : ObservableObject
     private string _selectedKeyboardLayoutKlid = string.Empty;
 
     [ObservableProperty]
+    private string _selectedKeyboardLanguage = AllLanguages;
+
+    [ObservableProperty]
+    private LayoutInfo? _selectedKeyboardLayout;
+
+    [ObservableProperty]
+    private string _selectedKeyboardStatusMessage = string.Empty;
+
+    [ObservableProperty]
+    private bool _hasSelectedKeyboardStatusMessage;
+
+    [ObservableProperty]
     private string _selectedSection = "Dashboard";
 
     [ObservableProperty]
@@ -48,7 +63,16 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private bool _isLogScrollLocked;
 
+    [ObservableProperty]
+    private string _windowsInputMethodStatus = "Not checked";
+
     public ObservableCollection<KeyboardDeviceViewModel> Keyboards { get; } = [];
+
+    public ObservableCollection<string> AvailableLanguages { get; } = [];
+
+    public ObservableCollection<LayoutInfo> AvailableLayouts { get; } = [];
+
+    public ObservableCollection<LayoutInfo> FilteredLayouts { get; } = [];
 
     public ObservableCollection<LogEntry> LogEntries => _applicationLogService.Entries;
 
@@ -78,6 +102,8 @@ public partial class MainViewModel : ObservableObject
 
     public event EventHandler? LogScrollLockChanged;
 
+    public event EventHandler<AppToastEventArgs>? AppToastRequested;
+
     public MainViewModel(
         ILogger<MainViewModel> logger,
         IConfigService configService,
@@ -97,6 +123,8 @@ public partial class MainViewModel : ObservableObject
 
         _deviceService.DeviceActivated += OnDeviceActivated;
         SelectedLogLevel = _configService.Load().Logging.MinimumLevel;
+        RefreshWindowsInputMethodStatus();
+        LoadAvailableLayouts();
         LoadConfiguredDevices();
 
         _logger.LogDebug("MainViewModel initialized");
@@ -117,6 +145,7 @@ public partial class MainViewModel : ObservableObject
         if (string.IsNullOrWhiteSpace(mappedKlid))
         {
             _logger.LogInformation("No mapped layout for deviceId={DeviceId}", e.Device.DeviceId);
+            AppToastRequested?.Invoke(this, new AppToastEventArgs("Active keyboard", CurrentDeviceDisplayName, "No layout assigned", AppToastKind.Warning));
             return;
         }
 
@@ -125,6 +154,10 @@ public partial class MainViewModel : ObservableObject
         {
             CurrentLayout = mappedKlid;
         }
+
+        var toastKind = switched ? AppToastKind.Success : AppToastKind.Error;
+        var toastDetail = switched ? $"Layout changed: {mappedKlid}" : $"Layout switch failed: {mappedKlid}";
+        AppToastRequested?.Invoke(this, new AppToastEventArgs("Active keyboard", CurrentDeviceDisplayName, toastDetail, toastKind));
 
         _logger.LogInformation("Layout switch requested deviceId={DeviceId} klid={Klid} switched={Switched}", e.Device.DeviceId, mappedKlid, switched);
     }
@@ -161,15 +194,17 @@ public partial class MainViewModel : ObservableObject
 
         _logger.LogInformation("Command dispatched command={Command} deviceId={DeviceId}", nameof(SaveSelectedKeyboardCommand), SelectedKeyboard.DeviceId);
         SelectedKeyboard.Alias = SelectedKeyboardAlias;
-        SelectedKeyboard.AssignedLayoutKlid = SelectedKeyboardLayoutKlid;
+        var selectedKlid = SelectedKeyboardLayout?.Klid ?? SelectedKeyboardLayoutKlid;
+        SelectedKeyboard.AssignedLayoutKlid = selectedKlid;
         _configService.SetDeviceAlias(SelectedKeyboard.DeviceId, SelectedKeyboardAlias);
 
-        if (!string.IsNullOrWhiteSpace(SelectedKeyboardLayoutKlid))
+        if (!string.IsNullOrWhiteSpace(selectedKlid))
         {
-            _configService.AssignLayout(SelectedKeyboard.DeviceId, SelectedKeyboardLayoutKlid);
+            _configService.AssignLayout(SelectedKeyboard.DeviceId, selectedKlid);
         }
 
-        SelectedKeyboard = null;
+        SelectedKeyboardStatusMessage = $"Saved {SelectedKeyboard.DisplayName}";
+        HasSelectedKeyboardStatusMessage = true;
     }
 
     [RelayCommand]
@@ -312,6 +347,38 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void DisablePerAppInputMethod()
+    {
+        _logger.LogInformation("Command dispatched command={Command}", nameof(DisablePerAppInputMethodCommand));
+        try
+        {
+            _applicationControlService.SetPerAppInputMethodEnabled(false);
+            WindowsInputMethodStatus = "Per-app input method disabled. Sign out or restart Explorer if Windows does not apply it immediately.";
+        }
+        catch (Exception ex)
+        {
+            WindowsInputMethodStatus = $"Failed to update Windows setting: {ex.Message}";
+            _logger.LogError(ex, "Failed to disable Windows per-app input method");
+        }
+    }
+
+    [RelayCommand]
+    private void EnablePerAppInputMethod()
+    {
+        _logger.LogInformation("Command dispatched command={Command}", nameof(EnablePerAppInputMethodCommand));
+        try
+        {
+            _applicationControlService.SetPerAppInputMethodEnabled(true);
+            WindowsInputMethodStatus = "Per-app input method enabled.";
+        }
+        catch (Exception ex)
+        {
+            WindowsInputMethodStatus = $"Failed to update Windows setting: {ex.Message}";
+            _logger.LogError(ex, "Failed to enable Windows per-app input method");
+        }
+    }
+
+    [RelayCommand]
     private void RestartApplication()
     {
         _logger.LogInformation("Command dispatched command={Command}", nameof(RestartApplicationCommand));
@@ -322,8 +389,49 @@ public partial class MainViewModel : ObservableObject
     {
         _logger.LogInformation("Selected keyboard changed deviceId={DeviceId}", value?.DeviceId);
         LoadSelectedKeyboardFields(value);
+        SelectedKeyboardStatusMessage = string.Empty;
+        HasSelectedKeyboardStatusMessage = false;
         OnPropertyChanged(nameof(HasSelectedKeyboard));
         OnPropertyChanged(nameof(HasNoSelectedKeyboard));
+    }
+
+    partial void OnSelectedKeyboardLanguageChanged(string value)
+    {
+        _logger.LogInformation("Selected keyboard language changed language={Language}", value);
+        if (!_isLoadingSelectedKeyboardFields)
+        {
+            ClearSelectedKeyboardStatus();
+        }
+
+        RefreshFilteredLayouts();
+
+        if (!_isLoadingSelectedKeyboardFields && SelectedKeyboardLayout is not null && !FilteredLayouts.Contains(SelectedKeyboardLayout))
+        {
+            SelectedKeyboardLayout = null;
+            SelectedKeyboardLayoutKlid = string.Empty;
+        }
+    }
+
+    partial void OnSelectedKeyboardLayoutChanged(LayoutInfo? value)
+    {
+        _logger.LogInformation("Selected keyboard layout changed klid={Klid}", value?.Klid);
+        if (!_isLoadingSelectedKeyboardFields)
+        {
+            ClearSelectedKeyboardStatus();
+        }
+
+        SelectedKeyboardLayoutKlid = value?.Klid ?? string.Empty;
+    }
+
+    partial void OnSelectedKeyboardAliasChanged(string value)
+    {
+        _logger.LogTrace("Selected keyboard alias changed value={Value}", value);
+        if (_isLoadingSelectedKeyboardFields)
+        {
+            return;
+        }
+
+        ClearSelectedKeyboardStatus();
     }
 
     partial void OnSelectedSectionChanged(string value)
@@ -371,6 +479,44 @@ public partial class MainViewModel : ObservableObject
         _logger.LogDebug("Configured devices loaded count={Count}", Keyboards.Count);
     }
 
+    private void LoadAvailableLayouts()
+    {
+        AvailableLayouts.Clear();
+        AvailableLanguages.Clear();
+
+        AvailableLanguages.Add(AllLanguages);
+        foreach (var layout in _layoutService.GetAvailableLayouts())
+        {
+            AvailableLayouts.Add(layout);
+        }
+
+        foreach (var language in AvailableLayouts
+            .Select(layout => string.IsNullOrWhiteSpace(layout.LanguageTag) ? "Unknown" : layout.LanguageTag)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .OrderBy(language => language, StringComparer.CurrentCultureIgnoreCase))
+        {
+            AvailableLanguages.Add(language);
+        }
+
+        RefreshFilteredLayouts();
+        _logger.LogDebug("Available layouts loaded count={LayoutCount} languages={LanguageCount}", AvailableLayouts.Count, AvailableLanguages.Count);
+    }
+
+    private void RefreshFilteredLayouts()
+    {
+        FilteredLayouts.Clear();
+        var selectedLanguage = SelectedKeyboardLanguage;
+
+        var layouts = string.Equals(selectedLanguage, AllLanguages, StringComparison.OrdinalIgnoreCase)
+            ? AvailableLayouts
+            : AvailableLayouts.Where(layout => string.Equals(layout.LanguageTag ?? "Unknown", selectedLanguage, StringComparison.OrdinalIgnoreCase));
+
+        foreach (var layout in layouts)
+        {
+            FilteredLayouts.Add(layout);
+        }
+    }
+
     private KeyboardDeviceViewModel EnsureKeyboardViewModel(DeviceInfo device)
     {
         var existing = Keyboards.FirstOrDefault(k => string.Equals(k.DeviceId, device.DeviceId, StringComparison.OrdinalIgnoreCase));
@@ -414,7 +560,80 @@ public partial class MainViewModel : ObservableObject
 
     private void LoadSelectedKeyboardFields(KeyboardDeviceViewModel? keyboard)
     {
-        SelectedKeyboardAlias = keyboard?.Alias ?? string.Empty;
-        SelectedKeyboardLayoutKlid = keyboard?.AssignedLayoutKlid ?? string.Empty;
+        _isLoadingSelectedKeyboardFields = true;
+        try
+        {
+            SelectedKeyboardAlias = keyboard?.Alias ?? string.Empty;
+            SelectedKeyboardLayoutKlid = keyboard?.AssignedLayoutKlid ?? string.Empty;
+
+            var layout = ResolveConfiguredLayout(SelectedKeyboardLayoutKlid);
+            SelectedKeyboardLanguage = layout?.LanguageTag ?? AllLanguages;
+            RefreshFilteredLayouts();
+            SelectedKeyboardLayout = layout is not null && FilteredLayouts.Contains(layout) ? layout : null;
+
+            _logger.LogDebug("Selected keyboard fields loaded deviceId={DeviceId} configuredKlid={ConfiguredKlid} resolvedKlid={ResolvedKlid} language={Language}",
+                keyboard?.DeviceId,
+                SelectedKeyboardLayoutKlid,
+                SelectedKeyboardLayout?.Klid,
+                SelectedKeyboardLanguage);
+        }
+        finally
+        {
+            _isLoadingSelectedKeyboardFields = false;
+        }
+    }
+
+    private LayoutInfo? ResolveConfiguredLayout(string configuredKlid)
+    {
+        if (string.IsNullOrWhiteSpace(configuredKlid))
+        {
+            return null;
+        }
+
+        var exact = AvailableLayouts.FirstOrDefault(layout => string.Equals(layout.Klid, configuredKlid, StringComparison.OrdinalIgnoreCase));
+        if (exact is not null)
+        {
+            return exact;
+        }
+
+        // Older config may contain base KLID (0000xxxx), while Windows exposes
+        // loaded HKLs as variants (hhhhxxxx). Match by LANGID as fallback.
+        if (configuredKlid.Length == 8)
+        {
+            var languageId = configuredKlid[4..];
+            return AvailableLayouts.FirstOrDefault(layout => layout.Klid.Length == 8
+                && string.Equals(layout.Klid[4..], languageId, StringComparison.OrdinalIgnoreCase));
+        }
+
+        return null;
+    }
+
+    private void ClearSelectedKeyboardStatus()
+    {
+        if (!HasSelectedKeyboardStatusMessage)
+        {
+            return;
+        }
+
+        SelectedKeyboardStatusMessage = string.Empty;
+        HasSelectedKeyboardStatusMessage = false;
+    }
+
+    private void RefreshWindowsInputMethodStatus()
+    {
+        try
+        {
+            WindowsInputMethodStatus = _applicationControlService.GetPerAppInputMethodEnabled() switch
+            {
+                true => "Windows is configured to allow different input methods per app window.",
+                false => "Windows is configured to share input method across app windows.",
+                null => "Windows setting not found yet. Use a button below to create/update it.",
+            };
+        }
+        catch (Exception ex)
+        {
+            WindowsInputMethodStatus = $"Unable to read Windows setting: {ex.Message}";
+            _logger.LogError(ex, "Failed to read Windows per-app input method setting");
+        }
     }
 }

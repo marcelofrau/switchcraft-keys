@@ -12,5 +12,9 @@ public interface IApplicationControlService
 
     void OpenWindowsKeyboardSettings();
 
+    bool? GetPerAppInputMethodEnabled();
+
+    void SetPerAppInputMethodEnabled(bool enabled);
+
     void RestartApplication();
 }

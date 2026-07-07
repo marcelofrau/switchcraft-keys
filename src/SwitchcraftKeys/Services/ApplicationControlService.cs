@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
+using SwitchcraftKeys.Interop;
 using SwitchcraftKeys.Services.Interfaces;
 
 namespace SwitchcraftKeys.Services;
@@ -48,6 +49,19 @@ public sealed class ApplicationControlService : IApplicationControlService
         {
             _logger.LogError(ex, "Failed to open Windows keyboard settings");
         }
+    }
+
+    public bool? GetPerAppInputMethodEnabled()
+    {
+        var enabled = WindowsInputSettingsRegistry.GetPerAppInputMethodEnabled();
+        _logger.LogInformation("Windows per-app input method setting read enabled={Enabled}", enabled);
+        return enabled;
+    }
+
+    public void SetPerAppInputMethodEnabled(bool enabled)
+    {
+        _logger.LogInformation("Windows per-app input method setting write enabled={Enabled}", enabled);
+        WindowsInputSettingsRegistry.SetPerAppInputMethodEnabled(enabled);
     }
 
     public void RestartApplication()

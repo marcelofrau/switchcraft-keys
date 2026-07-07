@@ -1,16 +1,30 @@
-# Switchcraft Keys
+<div align="center">
+  <img src="docs/images/social-preview.jpg" alt="SwitchcraftKeys" width="85%">
 
-<img src="docs/images/social-preview.jpg" width="85%">
+  # SwitchcraftKeys
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Platform: Windows](https://img.shields.io/badge/Platform-Windows%2010%2F11-blue.svg)]()
-[![.NET 8](https://img.shields.io/badge/.NET-8.0-purple.svg)]()
-[![Avalonia 12](https://img.shields.io/badge/Avalonia-12.0.5-blue.svg)]()
-[![GitHub Release](https://img.shields.io/github/v/release/marcelofrau/switchcraft-keys?include_prereleases)](https://github.com/marcelofrau/switchcraft-keys/releases)
-[![GitHub Issues](https://img.shields.io/github/issues/marcelofrau/switchcraft-keys)](https://github.com/marcelofrau/switchcraft-keys/issues)
-[![C#](https://img.shields.io/badge/Language-C%23-239120.svg)]()
+  **Device-aware keyboard layout manager for Windows**
 
-Device-aware keyboard layout manager for Windows. Automatically switches the OS keyboard layout when you type on a different physical keyboard.
+  Automatically switches the OS keyboard layout when you type on a different physical keyboard.
+
+  <p>
+    <a href="https://marcelofrau.github.io/switchcraft-keys/"><strong>Website</strong></a>
+    ·
+    <a href="https://github.com/marcelofrau/switchcraft-keys/releases"><strong>Releases</strong></a>
+    ·
+    <a href="https://marcelofrau.github.io/switchcraft-keys/docs"><strong>Docs</strong></a>
+    ·
+    <a href="https://github.com/marcelofrau/switchcraft-keys/issues"><strong>Issues</strong></a>
+  </p>
+
+  [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+  [![Platform: Windows](https://img.shields.io/badge/Platform-Windows%2010%2F11-blue.svg)]()
+  [![.NET 8](https://img.shields.io/badge/.NET-8.0-purple.svg)]()
+  [![Avalonia 12](https://img.shields.io/badge/Avalonia-12.0.5-blue.svg)]()
+  [![GitHub Release](https://img.shields.io/github/v/release/marcelofrau/switchcraft-keys?include_prereleases)](https://github.com/marcelofrau/switchcraft-keys/releases)
+  [![GitHub Issues](https://img.shields.io/github/issues/marcelofrau/switchcraft-keys)](https://github.com/marcelofrau/switchcraft-keys/issues)
+  [![C#](https://img.shields.io/badge/Language-C%23-239120.svg)]()
+</div>
 
 ## 🎯 The Problem
 

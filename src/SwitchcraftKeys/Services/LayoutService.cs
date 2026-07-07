@@ -18,6 +18,9 @@ public sealed class LayoutService : ILayoutService
     private readonly Func<uint, IntPtr> _getKeyboardLayout;
     private readonly Func<string, uint, IntPtr> _loadKeyboardLayout;
     private readonly Func<IntPtr, uint, IntPtr> _activateKeyboardLayout;
+    private readonly Func<IntPtr> _getForegroundWindow;
+    private readonly Func<IntPtr, uint> _getWindowThreadId;
+    private readonly Func<IntPtr, IntPtr, bool> _requestInputLanguageChange;
 
     public LayoutService(ILogger<LayoutService> logger)
         : this(
@@ -26,7 +29,10 @@ public sealed class LayoutService : ILayoutService
             KeyboardLayoutApi.GetAllLayoutHandles,
             KeyboardLayoutApi.GetKeyboardLayout,
             KeyboardLayoutApi.LoadKeyboardLayout,
-            KeyboardLayoutApi.ActivateKeyboardLayout)
+            KeyboardLayoutApi.ActivateKeyboardLayout,
+            KeyboardLayoutApi.GetForegroundWindow,
+            KeyboardLayoutApi.GetWindowThreadId,
+            KeyboardLayoutApi.RequestInputLanguageChange)
     {
     }
 
@@ -36,7 +42,10 @@ public sealed class LayoutService : ILayoutService
         Func<IntPtr[]> getAllLayoutHandles,
         Func<uint, IntPtr> getKeyboardLayout,
         Func<string, uint, IntPtr> loadKeyboardLayout,
-        Func<IntPtr, uint, IntPtr> activateKeyboardLayout)
+        Func<IntPtr, uint, IntPtr> activateKeyboardLayout,
+        Func<IntPtr>? getForegroundWindow = null,
+        Func<IntPtr, uint>? getWindowThreadId = null,
+        Func<IntPtr, IntPtr, bool>? requestInputLanguageChange = null)
     {
         _logger = logger;
         _readLayouts = readLayouts;
@@ -44,6 +53,9 @@ public sealed class LayoutService : ILayoutService
         _getKeyboardLayout = getKeyboardLayout;
         _loadKeyboardLayout = loadKeyboardLayout;
         _activateKeyboardLayout = activateKeyboardLayout;
+        _getForegroundWindow = getForegroundWindow ?? (() => IntPtr.Zero);
+        _getWindowThreadId = getWindowThreadId ?? (_ => 0);
+        _requestInputLanguageChange = requestInputLanguageChange ?? ((_, _) => true);
     }
 
     public IReadOnlyList<LayoutInfo> GetAvailableLayouts()
@@ -57,15 +69,16 @@ public sealed class LayoutService : ILayoutService
         _logger.LogInformation("GetKeyboardLayoutList returned count={Count}", loadedHandles.Length);
         var loadedByKlid = loadedHandles.ToDictionary(KeyboardLayoutApi.HklToKlid, hkl => hkl, StringComparer.OrdinalIgnoreCase);
 
-        return registryLayouts
-            .OrderBy(pair => pair.Value, StringComparer.CurrentCultureIgnoreCase)
+        return loadedByKlid
             .Select(pair => new LayoutInfo
             {
                 Klid = pair.Key.ToUpperInvariant(),
-                DisplayName = pair.Value,
+                DisplayName = ResolveDisplayName(pair.Key, registryLayouts),
                 LanguageTag = TryGetLanguageTag(pair.Key),
-                Hkl = loadedByKlid.TryGetValue(pair.Key, out var hkl) ? hkl : IntPtr.Zero,
+                Hkl = pair.Value,
             })
+            .OrderBy(layout => layout.DisplayName, StringComparer.CurrentCultureIgnoreCase)
+            .ThenBy(layout => layout.Klid, StringComparer.OrdinalIgnoreCase)
             .ToArray();
     }
 
@@ -102,16 +115,35 @@ public sealed class LayoutService : ILayoutService
         klid = klid.ToUpperInvariant();
         var stopwatch = Stopwatch.StartNew();
 
-        _logger.LogInformation("Calling LoadKeyboardLayout klid={Klid}", klid);
-        var hkl = _loadKeyboardLayout(klid, NativeConstants.KLF_SETFORPROCESS | NativeConstants.KLF_REORDER);
-        _logger.LogInformation("LoadKeyboardLayout returned klid={Klid} hkl={Hkl}", klid, hkl);
+        _logger.LogInformation("Calling GetKeyboardLayoutList for switch klid={Klid}", klid);
+        var loadedHandles = _getAllLayoutHandles();
+        _logger.LogInformation("GetKeyboardLayoutList for switch returned count={Count}", loadedHandles.Length);
+
+        var hkl = loadedHandles.FirstOrDefault(handle => string.Equals(KeyboardLayoutApi.HklToKlid(handle), klid, StringComparison.OrdinalIgnoreCase));
+
+        if (hkl == IntPtr.Zero)
+        {
+            _logger.LogInformation("Calling LoadKeyboardLayout klid={Klid}", klid);
+            hkl = _loadKeyboardLayout(klid, NativeConstants.KLF_SETFORPROCESS | NativeConstants.KLF_REORDER);
+            _logger.LogInformation("LoadKeyboardLayout returned klid={Klid} hkl={Hkl}", klid, hkl);
+        }
+        else
+        {
+            _logger.LogInformation("Using already-loaded keyboard layout klid={Klid} hkl={Hkl}", klid, hkl);
+        }
+
         if (hkl == IntPtr.Zero)
         {
             _logger.LogError("LoadKeyboardLayout failed klid={Klid}", klid);
             return false;
         }
 
-        _logger.LogInformation("Calling ActivateKeyboardLayout klid={Klid} hkl={Hkl}", klid, hkl);
+        var expectedKlid = KeyboardLayoutApi.HklToKlid(hkl);
+        var foregroundWindow = _getForegroundWindow();
+        var foregroundThreadId = _getWindowThreadId(foregroundWindow);
+        _logger.LogInformation("Foreground window resolved hwnd={Hwnd} threadId={ThreadId}", foregroundWindow, foregroundThreadId);
+
+        _logger.LogInformation("Calling ActivateKeyboardLayout klid={Klid} expectedKlid={ExpectedKlid} hkl={Hkl}", klid, expectedKlid, hkl);
         var previousHkl = _activateKeyboardLayout(hkl, NativeConstants.KLF_SETFORPROCESS | NativeConstants.KLF_REORDER);
         _logger.LogInformation("ActivateKeyboardLayout returned previousHkl={PreviousHkl}", previousHkl);
         if (previousHkl == IntPtr.Zero)
@@ -120,17 +152,29 @@ public sealed class LayoutService : ILayoutService
             return false;
         }
 
+        if (foregroundWindow != IntPtr.Zero)
+        {
+            _logger.LogInformation("Posting WM_INPUTLANGCHANGEREQUEST hwnd={Hwnd} threadId={ThreadId} hkl={Hkl}", foregroundWindow, foregroundThreadId, hkl);
+            var posted = _requestInputLanguageChange(foregroundWindow, hkl);
+            _logger.LogInformation("WM_INPUTLANGCHANGEREQUEST posted={Posted} hwnd={Hwnd} hkl={Hkl}", posted, foregroundWindow, hkl);
+            if (!posted)
+            {
+                _logger.LogError("Failed to post WM_INPUTLANGCHANGEREQUEST hwnd={Hwnd} hkl={Hkl}", foregroundWindow, hkl);
+                return false;
+            }
+        }
+
         for (var attempt = 1; attempt <= MaxVerifyAttempts; attempt++)
         {
-            _logger.LogDebug("Layout verify attempt={Attempt} of={Max} klid={Klid}", attempt, MaxVerifyAttempts, klid);
-            var current = _getKeyboardLayout(0);
+            _logger.LogDebug("Layout verify attempt={Attempt} of={Max} klid={Klid} expectedKlid={ExpectedKlid}", attempt, MaxVerifyAttempts, klid, expectedKlid);
+            var current = _getKeyboardLayout(foregroundThreadId);
             var currentKlid = current == IntPtr.Zero ? null : KeyboardLayoutApi.HklToKlid(current);
-            _logger.LogDebug("Layout verify result attempt={Attempt} expected={ExpectedKlid} actual={ActualKlid}", attempt, klid, currentKlid);
+            _logger.LogDebug("Layout verify result attempt={Attempt} expected={ExpectedKlid} actual={ActualKlid}", attempt, expectedKlid, currentKlid);
 
-            if (string.Equals(currentKlid, klid, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(currentKlid, expectedKlid, StringComparison.OrdinalIgnoreCase))
             {
                 stopwatch.Stop();
-                _logger.LogInformation("Layout switched klid={Klid} elapsedMs={ElapsedMs}", klid, stopwatch.ElapsedMilliseconds);
+                _logger.LogInformation("Layout switched klid={Klid} expectedKlid={ExpectedKlid} elapsedMs={ElapsedMs}", klid, expectedKlid, stopwatch.ElapsedMilliseconds);
                 return true;
             }
 
@@ -157,5 +201,35 @@ public sealed class LayoutService : ILayoutService
         {
             return null;
         }
+    }
+
+    private static string ResolveDisplayName(string klid, Dictionary<string, string> registryLayouts)
+    {
+        if (registryLayouts.TryGetValue(klid, out var displayName))
+        {
+            return displayName;
+        }
+
+        var baseKlid = klid.Length == 8 ? "0000" + klid[4..] : klid;
+        if (registryLayouts.TryGetValue(baseKlid, out displayName))
+        {
+            return displayName;
+        }
+
+        if (klid.Length == 8
+            && int.TryParse(klid[4..], NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var languageId))
+        {
+            try
+            {
+                var culture = CultureInfo.GetCultureInfo(languageId);
+                return culture.DisplayName;
+            }
+            catch (CultureNotFoundException)
+            {
+                return klid.ToUpperInvariant();
+            }
+        }
+
+        return klid.ToUpperInvariant();
     }
 }

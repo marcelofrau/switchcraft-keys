@@ -3,7 +3,7 @@
         x:Class="SwitchcraftKeys.Views.ConfirmExitDialog"
         Title="Exit SwitchcraftKeys?"
         Icon="/Assets/icon.ico"
-        Width="420" Height="230"
+        Width="500" Height="240"
         CanResize="False"
         WindowStartupLocation="CenterOwner"
         Background="#F4F9FF">
@@ -35,6 +35,14 @@
                 CornerRadius="10"
                 Padding="16,8">
           <TextBlock Text="Cancel" Foreground="#285F9E" FontWeight="SemiBold" />
+        </Button>
+        <Button Click="OnMinimizeToTrayClicked"
+                Background="#FFFFFF"
+                BorderBrush="#7DAFE4"
+                BorderThickness="1"
+                CornerRadius="10"
+                Padding="16,8">
+          <TextBlock Text="Minimize to tray" Foreground="#285F9E" FontWeight="SemiBold" />
         </Button>
         <Button Click="OnExitClicked"
                 Background="{StaticResource LunaErrorBrush}"

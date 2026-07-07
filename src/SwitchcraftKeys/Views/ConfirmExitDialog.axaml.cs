@@ -12,11 +12,16 @@ public partial class ConfirmExitDialog : Window
 
     private void OnCancelClicked(object? sender, RoutedEventArgs e)
     {
-        Close(false);
+        Close(ConfirmExitResult.Cancel);
+    }
+
+    private void OnMinimizeToTrayClicked(object? sender, RoutedEventArgs e)
+    {
+        Close(ConfirmExitResult.MinimizeToTray);
     }
 
     private void OnExitClicked(object? sender, RoutedEventArgs e)
     {
-        Close(true);
+        Close(ConfirmExitResult.Exit);
     }
 }
