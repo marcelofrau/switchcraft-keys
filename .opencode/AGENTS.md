@@ -215,4 +215,4 @@ _logger.LogInformation("Layout switched klid={Klid} elapsedMs={ElapsedMs}", klid
 
 ---
 
-**Updated**: 2026-07-01 · Version 0.1.0 · Phase 1 in progress
+**Updated**: 2026-07-07 · Version 0.9.0 · Phase 3 in progress

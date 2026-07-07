@@ -191,7 +191,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="2" HorizontalAlignment="Left">
-          <TextBlock Text="Version 0.1.0" Foreground="#C8DFFF" FontSize="14" FontFamily="{StaticResource CondensedFont}" />
+          <TextBlock Text="Version 0.9.0" Foreground="#C8DFFF" FontSize="14" FontFamily="{StaticResource CondensedFont}" />
         </StackPanel>
       </Grid>
     </Border>
@@ -540,7 +540,7 @@
               <Border Background="#F4F9FF" BorderBrush="#C7DBF1" BorderThickness="1" CornerRadius="14" Padding="16">
                 <StackPanel Spacing="4">
                   <TextBlock Text="Version" FontFamily="{StaticResource CondensedFont}" FontSize="16" Foreground="#6B829B" />
-                  <TextBlock Text="0.1.0" FontSize="24" FontWeight="Bold" Foreground="#17365E" />
+                  <TextBlock Text="0.9.0" FontSize="24" FontWeight="Bold" Foreground="#17365E" />
                 </StackPanel>
               </Border>
               <Border Grid.Column="1" Background="#F4F9FF" BorderBrush="#C7DBF1" BorderThickness="1" CornerRadius="14" Padding="16">

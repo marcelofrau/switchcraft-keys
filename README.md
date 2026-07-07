@@ -78,7 +78,7 @@ Notebook Keyboard (PT-BR)─┤    ↓
 
 ### Option 1: Portable (Recommended)
 
-1. Download `SwitchcraftKeys-v0.1.0-win-x64.zip` from [Releases](https://github.com/marcelofrau/switchcraft-keys/releases)
+1. Download `SwitchcraftKeys-v0.9.0-win-x64.zip` from [Releases](https://github.com/marcelofrau/switchcraft-keys/releases)
 2. Extract anywhere (e.g., `C:\Tools\SwitchcraftKeys\`)
 3. Run `SwitchcraftKeys.exe`
 4. It launches in the system tray
@@ -86,7 +86,7 @@ Notebook Keyboard (PT-BR)─┤    ↓
 
 ### Option 2: Installer
 
-1. Download `SwitchcraftKeys-v0.1.0-win-x64-setup.exe` from [Releases](https://github.com/marcelofrau/switchcraft-keys/releases)
+1. Download `SwitchcraftKeys-v0.9.0-win-x64-setup.exe` from [Releases](https://github.com/marcelofrau/switchcraft-keys/releases)
 2. Run the installer (wizard UI, Portuguese + English)
 3. Choose installation directory (default: `C:\Program Files\SwitchcraftKeys`)
 4. Installer creates Start Menu shortcuts and desktop shortcut
@@ -184,12 +184,12 @@ SwitchcraftKeys --check        # Verify system readiness
 
 # Release + portable zip
 .\build\build.ps1 -Config Release -Release
-# → Creates: dist\SwitchcraftKeys-v0.1.0-win-x64.zip
+# → Creates: dist\SwitchcraftKeys-v0.9.0-win-x64.zip
 
 # Release + portable zip + installer
 .\build\build.ps1 -Config Release -Release -Installer
-# → Creates: dist\SwitchcraftKeys-v0.1.0-win-x64.zip
-#            dist\SwitchcraftKeys-v0.1.0-win-x64-setup.exe
+# → Creates: dist\SwitchcraftKeys-v0.9.0-win-x64.zip
+#            dist\SwitchcraftKeys-v0.9.0-win-x64-setup.exe
 
 # Run unit tests
 .\build\test.ps1
@@ -342,5 +342,5 @@ You are free to use, modify, and distribute this software for personal or commer
 ---
 
 **Status**: 🚀 Phase 1 MVP complete — Core functionality stable, ready for production use.  
-**Latest Release**: [v0.1.0](https://github.com/marcelofrau/switchcraft-keys/releases/tag/v0.1.0)  
+**Latest Release**: [v0.9.0](https://github.com/marcelofrau/switchcraft-keys/releases/tag/v0.9.0)  
 **Repository**: https://github.com/marcelofrau/switchcraft-keys

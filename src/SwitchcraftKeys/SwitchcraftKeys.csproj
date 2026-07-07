@@ -8,7 +8,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AssemblyName>SwitchcraftKeys</AssemblyName>
     <RootNamespace>SwitchcraftKeys</RootNamespace>
-    <Version>0.1.0</Version>
+    <Version>0.9.0</Version>
     <Authors>Marcelo Frau</Authors>
     <Company>Marcelo Frau</Company>
     <Copyright>Copyright © 2026 Marcelo Frau</Copyright>
