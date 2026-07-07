@@ -70,8 +70,11 @@ jobs:
         VERSION: ${{ github.ref_name }}
       run: |
         $version = "${{ github.ref_name }}" -replace '^v', ''
-        $installer = if ("${{ matrix.installer }}" -eq "true") { "-Installer" } else { "" }
-        pwsh -File build/build-release.ps1 -Version $version -Arch "${{ matrix.arch }}" $installer.Split()
+        if ("${{ matrix.installer }}" -eq "true") {
+          pwsh -File build/build-release.ps1 -Version $version -Arch "${{ matrix.arch }}" -Installer
+        } else {
+          pwsh -File build/build-release.ps1 -Version $version -Arch "${{ matrix.arch }}"
+        }
 
     - name: Verify native executable in package
       shell: bash

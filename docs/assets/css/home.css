@@ -104,8 +104,8 @@ img {
   left: 0;
   right: 0;
   height: var(--nav-height);
-  background: linear-gradient(180deg, #008B8B 0%, #007070 48%, #005252 100%);
-  border-bottom: 2px solid #003F3F;
+  background: linear-gradient(180deg, #3C8CF8 0%, #245EDC 50%, #1E4BB8 100%);
+  border-bottom: 2px solid var(--border-dark);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   z-index: 1000;
   display: flex;
@@ -178,7 +178,7 @@ img {
 
 /* --- Hero Section --- */
 .hero {
-  padding: calc(var(--nav-height) + 80px) 20px 80px;
+  padding: calc(var(--nav-height) + 38px) 20px 46px;
   text-align: center;
   color: var(--text-light);
 }
@@ -190,7 +190,7 @@ img {
 
 .hero-logo {
   width: min(620px, 90vw);
-  margin-bottom: 28px;
+  margin-bottom: 14px;
 }
 
 .hero h1 {
